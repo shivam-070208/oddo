@@ -14,7 +14,7 @@ import { usePathname } from "next/navigation";
 
 const navItems = [
   { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/admin/users", label: "Users", icon: ClipboardList },
+  { href: "/admin/operations", label: "Operations", icon: ClipboardList },
   { href: "/admin/products", label: "Products", icon: Package },
   { href: "/admin/move-history", label: "Move History", icon: History },
 ];
