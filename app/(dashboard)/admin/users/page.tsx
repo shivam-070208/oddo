@@ -1,9 +1,11 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { useSearchContext } from "@/contexts/search-context";
+import { useSession } from "@/hooks/use-session";
+import { Trash2 } from "lucide-react";
 
 type UserItem = {
   id: string;
@@ -30,10 +32,19 @@ const ROLE_OPTIONS: { value: FormValues["role"]; label: string }[] = [
 
 export default function AdminUsersPage() {
   const { searchQuery } = useSearchContext();
+  const { data: sessionData } = useSession();
   const [users, setUsers] = useState<UserItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [open, setOpen] = useState(false);
+  const [deletingUserId, setDeletingUserId] = useState<string | null>(null);
+
+  const currentUserId = sessionData?.session?.user?.id;
+
+  const visibleUsers = useMemo(
+    () => users.filter((user) => user.id !== currentUserId),
+    [users, currentUserId],
+  );
 
   const {
     register,
@@ -49,7 +60,7 @@ export default function AdminUsersPage() {
     },
   });
 
-  async function loadUsers() {
+  const loadUsers = useCallback(async () => {
     try {
       setLoading(true);
       setError(null);
@@ -68,11 +79,40 @@ export default function AdminUsersPage() {
     } finally {
       setLoading(false);
     }
-  }
+  }, [searchQuery]);
 
   useEffect(() => {
     void loadUsers();
-  }, [searchQuery]);
+  }, [loadUsers]);
+
+  const handleDeleteUser = async (id: string) => {
+    const isConfirmed = window.confirm("Are you sure you want to delete this user?");
+    if (!isConfirmed) return;
+
+    try {
+      setDeletingUserId(id);
+      const res = await fetch(`/api/users/${id}`, {
+        method: "DELETE",
+      });
+
+      const body = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        const message =
+          typeof body?.error === "string" ? body.error : "Failed to delete user";
+        throw new Error(message);
+      }
+
+      toast.success("User deleted successfully.");
+      await loadUsers();
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Failed to delete user";
+      toast.error(message);
+    } finally {
+      setDeletingUserId(null);
+    }
+  };
 
   const onSubmit = async (data: FormValues) => {
     try {
@@ -126,7 +166,7 @@ export default function AdminUsersPage() {
           <p className="p-4 text-slate-500">Loading users…</p>
         ) : error ? (
           <p className="p-4 text-red-600">{error}</p>
-        ) : users.length === 0 ? (
+        ) : visibleUsers.length === 0 ? (
           <p className="p-4 text-slate-500">No users yet. Invite one above.</p>
         ) : (
           <table className="min-w-full divide-y divide-slate-200">
@@ -144,10 +184,13 @@ export default function AdminUsersPage() {
                 <th className="px-4 py-3 text-left text-xs font-medium uppercase text-slate-500">
                   Verified
                 </th>
+                <th className="px-4 py-3 text-right text-xs font-medium uppercase text-slate-500">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-200 bg-white">
-              {users.map((u) => (
+              {visibleUsers.map((u) => (
                 <tr key={u.id}>
                   <td className="whitespace-nowrap px-4 py-3 text-sm text-slate-900">
                     {u.name}
@@ -168,6 +211,17 @@ export default function AdminUsersPage() {
                     >
                       {u.emailVerified ? "Yes" : "Pending"}
                     </span>
+                  </td>
+                  <td className="whitespace-nowrap px-4 py-3 text-right">
+                    <button
+                      type="button"
+                      onClick={() => void handleDeleteUser(u.id)}
+                      disabled={deletingUserId === u.id}
+                      className="inline-flex items-center justify-center rounded-md p-2 text-red-600 hover:bg-red-50 disabled:cursor-not-allowed disabled:opacity-60"
+                      aria-label={`Delete ${u.name}`}
+                    >
+                      <Trash2 size={16} />
+                    </button>
                   </td>
                 </tr>
               ))}
