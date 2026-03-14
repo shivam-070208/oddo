@@ -1,7 +1,7 @@
 import { Bell, HelpCircle, MapPin } from "lucide-react";
 import React from "react";
 
-const Navbar: React.FC = () => {
+const Navbar = () => {
   return (
     <div className="w-full h-20 bg-white border-b flex items-center justify-between px-6 py-5">
       <div className="flex-1 max-w-md">
@@ -24,5 +24,9 @@ const Navbar: React.FC = () => {
     </div>
   );
 };
+<<<<<<< HEAD:components/Navbar.tsx
 
 export default Navbar;
+=======
+export default Navbar;
+>>>>>>> 7f80b71627b44032306bbc09f09f94db4a7e5f50:components/Navbar.jsx
