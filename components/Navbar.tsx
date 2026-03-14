@@ -1,8 +1,13 @@
 import { Bell, HelpCircle, MapPin } from "lucide-react";
+<<<<<<< HEAD
 import React from "react";
+=======
+
+
+>>>>>>> d528ece13f6796d568a8b2a118ec6edf446997c6
 const Navbar = () => {
   return (
-    <div className="w-full h-20 bg-white border-b flex items-center justify-between px-6 py-5">
+    <div className="w-full h-20 bg-white border-b flex items-center justify-between px-6 py-5 print:hidden">
       <div className="flex-1 max-w-md">
         <input
           type="text"
@@ -20,7 +25,17 @@ const Navbar = () => {
       </div>
     </div>
   );
+<<<<<<< HEAD
 };
 
 export default Navbar;
 
+=======
+
+}
+
+
+export default Navbar;
+
+
+>>>>>>> d528ece13f6796d568a8b2a118ec6edf446997c6

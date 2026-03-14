@@ -1,6 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
+import { generateOTP } from "@/lib/generate-otp";
+import { transporter } from "@/lib/email";
 
 // GET /api/users — List all users
 export async function GET() {
@@ -11,6 +13,7 @@ export async function GET() {
         name: true,
         email: true,
         role: true,
+        emailVerified: true,
         createdAt: true,
         updatedAt: true,
       },
@@ -27,7 +30,7 @@ export async function GET() {
   }
 }
 
-// POST /api/users — Create a new user
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -59,6 +62,7 @@ export async function POST(request: NextRequest) {
         email,
         password: hashedPassword,
         role,
+        emailVerified: false,
       },
       select: {
         id: true,
@@ -70,12 +74,39 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    const otp = generateOTP(6);
+    const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
+    await prisma.oTP.upsert({
+      where: { email },
+      update: { code: otp, expiresAt },
+      create: { email, code: otp, expiresAt },
+    });
+
+    const baseUrl = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+    const verifyUrl = `${baseUrl}/verify-email?email=${encodeURIComponent(email)}`;
+
+    await transporter.sendMail({
+      from: process.env.SMTP_FROM ?? "no-reply@example.com",
+      to: email,
+      subject: "Welcome – Verify your email",
+      text: `Welcome, ${name}. Your user ID is: ${user.id}. Please verify your email using this code: ${otp}. You can also verify here: ${verifyUrl}`,
+      html: `
+        <p>Welcome, <strong>${name}</strong>.</p>
+        <p>Your <strong>User ID</strong> is: <code>${user.id}</code>.</p>
+        <p>Please verify your email using the code below:</p>
+        <p style="font-size:1.25rem;letter-spacing:0.25em;font-weight:600;">${otp}</p>
+        <p>Or open this link to verify: <a href="${verifyUrl}">${verifyUrl}</a></p>
+        <p>This code expires in 10 minutes.</p>
+      `,
+    });
+
     return NextResponse.json(user, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error creating user:", error);
 
     // Handle unique constraint violation (duplicate email)
-    if (error?.code === "P2002") {
+    const prismaError = error as { code?: string } | undefined;
+    if (prismaError?.code === "P2002") {
       return NextResponse.json(
         { error: "A user with this email already exists" },
         { status: 409 }
