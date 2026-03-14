@@ -64,8 +64,9 @@ export async function POST(req: Request) {
     const res = NextResponse.json({ user: userSafe }, { status: 200 });
     res.cookies.set(getSessionCookieName(), token, getSessionCookieOptions());
     return res;
-  } catch {
- 
+  } catch(err) {
+    console.log(err);
+    
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 }
