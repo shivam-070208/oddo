@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
 // GET /api/deliveries - List all deliveries
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const q = request.nextUrl.searchParams.get("q")?.trim().toLowerCase() ?? "";
+
     const deliveries = await prisma.delivery.findMany({
       include: {
         responsible: {
@@ -16,7 +18,22 @@ export async function GET() {
       orderBy: { createdAt: "desc" },
     });
 
-    return NextResponse.json(deliveries);
+    const filteredDeliveries =
+      q.length === 0
+        ? deliveries
+        : deliveries.filter((delivery) =>
+            [
+              delivery.reference,
+              delivery.customer,
+              String(delivery.status),
+              delivery.responsible?.name ?? "",
+            ]
+              .join(" ")
+              .toLowerCase()
+              .includes(q),
+          );
+
+    return NextResponse.json(filteredDeliveries);
   } catch (error) {
     console.error("Error fetching deliveries:", error);
     return NextResponse.json({ error: "Failed to fetch deliveries" }, { status: 500 });

@@ -15,8 +15,11 @@ export type DeliveryRow = {
   responsibleName: string;
 };
 
-async function fetchDeliveries(): Promise<DeliveryRow[]> {
-  const res = await fetch("/api/deliveries");
+async function fetchDeliveries(searchQuery?: string): Promise<DeliveryRow[]> {
+  const params = new URLSearchParams();
+  if (searchQuery?.trim()) params.set("q", searchQuery.trim());
+  const query = params.toString();
+  const res = await fetch(`/api/deliveries${query ? `?${query}` : ""}`);
   if (!res.ok) {
     throw new Error("Failed to fetch deliveries");
   }
@@ -43,10 +46,10 @@ async function fetchDeliveries(): Promise<DeliveryRow[]> {
   }));
 }
 
-export function useDeliveries() {
+export function useDeliveries(searchQuery?: string) {
   return useQuery({
-    queryKey: ["deliveries"],
-    queryFn: fetchDeliveries,
+    queryKey: ["deliveries", searchQuery ?? ""],
+    queryFn: () => fetchDeliveries(searchQuery),
   });
 }
 

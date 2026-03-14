@@ -1,8 +1,37 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# StockFlow: Inventory Management System
+
+StockFlow is a modern inventory management solution built with [Next.js](https://nextjs.org), designed to help businesses efficiently track inventory, warehouse operations, and staff roles. This project uses Next.js App Router, optimized Google fonts, and a robust authentication and role-based authorization system.
+
+## Features
+
+- **Role-Based Access Control**: Admin, Inventory Manager, and Warehouse Staff roles.
+- **Email Verification & OTP Authentication**
+- **Admin Dashboard**: Manage users, inventory, and oversee operations.
+- **Modern UI**: Uses [Geist](https://vercel.com/font) and Plus Jakarta Sans for a sleek, readable design.
+- **Optimized for Production**: Secure session handling, protected routes, and deploy-ready configuration.
 
 ## Getting Started
 
-First, run the development server:
+### 1. Clone the repository
+
+```bash
+git clone https://github.com/your-org/stockflow.git
+cd stockflow
+```
+
+### 2. Install dependencies
+
+```bash
+npm install
+# or
+yarn install
+```
+
+### 3. Configure Environment Variables
+
+Copy `.env.example` to `.env.local` and set up your variables (database URL, SMTP, session secret, etc).
+
+### 4. Run the development server
 
 ```bash
 npm run dev
@@ -14,23 +43,43 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) to view the app.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Default Admin Credentials
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+> **Note:** Use these credentials to access the admin dashboard in local development.
+
+- **Email:** shivamdevofficial07@gmail.com
+- **Password:** admin@gmail.com
+
+> ⚠️ Change these credentials in production for security reasons!
+
+## File Structure
+
+- `app/`: Next.js App Router codebase
+    - `app/(dashboard)/admin/`: Admin dashboard routes/layouts
+- `lib/`: Shared utilities (authentication, session, etc.)
+- `prisma/`: Database schema and migrations
+
+## Technologies Used
+
+- [Next.js](https://nextjs.org/)
+- [Prisma ORM](https://www.prisma.io/)
+- [PostgreSQL](https://www.postgresql.org/) (or other supported DB)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Nodemailer](https://nodemailer.com/) (for emails)
+- [JWT](https://jwt.io/) for secure sessions
 
 ## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+- [Next.js Documentation](https://nextjs.org/docs)
+- [StockFlow Wiki](https://github.com/your-org/stockflow/wiki) (coming soon!)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## License
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+MIT
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+_Questions, feedback, or contributions are always welcome!_
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

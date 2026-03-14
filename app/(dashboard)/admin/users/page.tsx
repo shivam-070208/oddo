@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { useSearchContext } from "@/contexts/search-context";
 
 type UserItem = {
   id: string;
@@ -28,6 +29,7 @@ const ROLE_OPTIONS: { value: FormValues["role"]; label: string }[] = [
 ];
 
 export default function AdminUsersPage() {
+  const { searchQuery } = useSearchContext();
   const [users, setUsers] = useState<UserItem[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -51,7 +53,10 @@ export default function AdminUsersPage() {
     try {
       setLoading(true);
       setError(null);
-      const res = await fetch("/api/users");
+      const params = new URLSearchParams();
+      if (searchQuery.trim()) params.set("q", searchQuery.trim());
+      const query = params.toString();
+      const res = await fetch(`/api/users${query ? `?${query}` : ""}`);
       if (!res.ok) {
         throw new Error("Failed to fetch users");
       }
@@ -67,7 +72,7 @@ export default function AdminUsersPage() {
 
   useEffect(() => {
     void loadUsers();
-  }, []);
+  }, [searchQuery]);
 
   const onSubmit = async (data: FormValues) => {
     try {

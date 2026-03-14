@@ -2,17 +2,29 @@
 
 import {
   LayoutDashboard,
-  Package,
   ClipboardList,
   Boxes,
   MapPinned,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
+import { useSession } from "@/hooks/use-session";
+
+function formatRole(role?: string) {
+  if (!role) return "";
+  return role
+    .toLowerCase()
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
 
 const Sidebar = () => {
+  const { data } = useSession();
+  const user = data?.session?.user;
+
   return (
-    <div className="h-screen w-64 bg-white border-r flex flex-col justify-between p-4">
+    <div className="h-screen w-64 bg-white border-r flex flex-col justify-between p-4 sticky top-0">
       <div>
         <div className="flex items-center gap-2 mb-7">
           <Boxes size={34} className="text-blue-500" />
@@ -67,8 +79,8 @@ const Sidebar = () => {
           </div>
 
           <div>
-            <p className="text-sm font-semibold text-gray-800">Alex Rivera</p>
-            <p className="text-xs text-gray-500">Admin</p>
+            <p className="text-sm font-semibold text-gray-800">{user?.name ?? "User"}</p>
+            <p className="text-xs text-gray-500">{formatRole(user?.role) || "Unknown Role"}</p>
           </div>
         </div>
       </div>

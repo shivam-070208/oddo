@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
 // GET /api/locations - List all locations
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const q = request.nextUrl.searchParams.get("q")?.trim().toLowerCase() ?? "";
+
     const locations = await prisma.location.findMany({
       include: {
         warehouse: true,
@@ -17,7 +19,17 @@ export async function GET() {
       },
     });
 
-    return NextResponse.json(locations);
+    const filteredLocations =
+      q.length === 0
+        ? locations
+        : locations.filter((location) =>
+            [location.name, location.code, location.warehouse?.name ?? "", location.warehouse?.code ?? ""]
+              .join(" ")
+              .toLowerCase()
+              .includes(q),
+          );
+
+    return NextResponse.json(filteredLocations);
   } catch (error) {
     console.error("Error fetching locations:", error);
     return NextResponse.json({ error: "Failed to fetch locations" }, { status: 500 });

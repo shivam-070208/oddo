@@ -5,8 +5,10 @@ import { generateOTP } from "@/lib/generate-otp";
 import { transporter } from "@/lib/email";
 
 // GET /api/users — List all users
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const q = request.nextUrl.searchParams.get("q")?.trim().toLowerCase() ?? "";
+
     const users = await prisma.user.findMany({
       select: {
         id: true,
@@ -20,7 +22,17 @@ export async function GET() {
       orderBy: { createdAt: "desc" },
     });
 
-    return NextResponse.json(users);
+    const filteredUsers =
+      q.length === 0
+        ? users
+        : users.filter((user) =>
+            [user.name, user.email, String(user.role)]
+              .join(" ")
+              .toLowerCase()
+              .includes(q),
+          );
+
+    return NextResponse.json(filteredUsers);
   } catch (error) {
     console.error("Error fetching users:", error);
     return NextResponse.json(

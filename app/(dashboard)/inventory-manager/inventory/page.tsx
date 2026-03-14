@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { ArrowLeft, Activity, Package, MapPin } from "lucide-react";
 import { useStockMoves } from "../_hooks/useStockMoves";
+import { useSearchContext } from "@/contexts/search-context";
 
 const typeLabels: Record<string, string> = {
   RECEIPT: "Receipt",
@@ -19,7 +20,8 @@ const typeColors: Record<string, string> = {
 };
 
 export default function InventoryPage() {
-  const { data: moves, isLoading, error } = useStockMoves();
+  const { searchQuery } = useSearchContext();
+  const { data: moves, isLoading, error } = useStockMoves(searchQuery);
   const list = moves ?? [];
 
   const totalMoves = list.length;
@@ -125,7 +127,7 @@ export default function InventoryPage() {
               No stock moves recorded yet.
             </p>
           ) : (
-            <table className="w-full min-w-[760px]">
+            <table className="w-full min-w-190">
               <thead>
                 <tr className="border-b border-slate-200 bg-slate-50/80 text-xs font-semibold uppercase tracking-wider text-slate-500">
                   <th className="px-5 py-3 text-left">Type</th>

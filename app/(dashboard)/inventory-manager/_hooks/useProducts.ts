@@ -12,8 +12,11 @@ export type ProductRow = {
   receiptCount: number;
 };
 
-async function fetchProducts(): Promise<ProductRow[]> {
-  const res = await fetch("/api/products");
+async function fetchProducts(searchQuery?: string): Promise<ProductRow[]> {
+  const params = new URLSearchParams();
+  if (searchQuery?.trim()) params.set("q", searchQuery.trim());
+  const query = params.toString();
+  const res = await fetch(`/api/products${query ? `?${query}` : ""}`);
   if (!res.ok) {
     throw new Error("Failed to fetch products");
   }
@@ -38,10 +41,10 @@ async function fetchProducts(): Promise<ProductRow[]> {
   }));
 }
 
-export function useProducts() {
+export function useProducts(searchQuery?: string) {
   return useQuery({
-    queryKey: ["products"],
-    queryFn: fetchProducts,
+    queryKey: ["products", searchQuery ?? ""],
+    queryFn: () => fetchProducts(searchQuery),
   });
 }
 

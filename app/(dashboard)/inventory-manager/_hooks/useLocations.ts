@@ -9,8 +9,11 @@ export type LocationRow = {
   warehouseName: string;
 };
 
-async function fetchLocations(): Promise<LocationRow[]> {
-  const res = await fetch("/api/locations");
+async function fetchLocations(searchQuery?: string): Promise<LocationRow[]> {
+  const params = new URLSearchParams();
+  if (searchQuery?.trim()) params.set("q", searchQuery.trim());
+  const query = params.toString();
+  const res = await fetch(`/api/locations${query ? `?${query}` : ""}`);
   if (!res.ok) {
     throw new Error("Failed to fetch locations");
   }
@@ -29,10 +32,10 @@ async function fetchLocations(): Promise<LocationRow[]> {
   }));
 }
 
-export function useLocations() {
+export function useLocations(searchQuery?: string) {
   return useQuery({
-    queryKey: ["locations"],
-    queryFn: fetchLocations,
+    queryKey: ["locations", searchQuery ?? ""],
+    queryFn: () => fetchLocations(searchQuery),
   });
 }
 
