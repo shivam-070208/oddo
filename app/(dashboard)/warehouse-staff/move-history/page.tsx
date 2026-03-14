@@ -41,7 +41,6 @@ type StockMoveApiItem = {
   toLocation: LocationRef;
 };
 
-type MoveStatus = "Ready" | "In Use" | "Done";
 
 type MoveDirection = "IN" | "OUT" | "INTERNAL";
 
@@ -53,7 +52,6 @@ type MoveViewModel = {
   from: string;
   to: string;
   quantity: number;
-  status: MoveStatus;
   direction: MoveDirection;
   productName: string;
 };
@@ -76,11 +74,7 @@ type NewMoveFormState = {
   reference: string;
 };
 
-function getStatus(move: StockMoveApiItem): MoveStatus {
-  if (move.type === "TRANSFER") return "In Use";
-  if (move.type === "ADJUSTMENT") return "Done";
-  return "Ready";
-}
+
 
 function getDirection(move: StockMoveApiItem): MoveDirection {
   if (move.type === "RECEIPT") return "IN";
@@ -95,11 +89,6 @@ function getContact(move: StockMoveApiItem): string {
   return "Inventory Adjustment";
 }
 
-function statusClassName(status: MoveStatus): string {
-  if (status === "Ready") return "bg-emerald-100 text-emerald-700";
-  if (status === "In Use") return "bg-blue-100 text-blue-700";
-  return "bg-slate-200 text-slate-700";
-}
 
 function directionClassName(direction: MoveDirection): string {
   if (direction === "IN") return "text-emerald-700";
@@ -162,7 +151,6 @@ function toViewModel(move: StockMoveApiItem): MoveViewModel {
     from: move.fromLocation?.code || move.fromLocation?.name || "Vendor",
     to: move.toLocation?.code || move.toLocation?.name || "Warehouse Stock",
     quantity: move.quantity,
-    status: getStatus(move),
     direction: getDirection(move),
     productName: move.product?.name || "Unknown Product",
   };
@@ -234,13 +222,6 @@ export default function WarehouseStaffMoveHistoryPage() {
     });
   }, [rows, searchQuery]);
 
-  const groupedByStatus = useMemo(() => {
-    return {
-      Ready: filteredRows.filter((row) => row.status === "Ready"),
-      "In Use": filteredRows.filter((row) => row.status === "In Use"),
-      Done: filteredRows.filter((row) => row.status === "Done"),
-    };
-  }, [filteredRows]);
 
   function escapeCsvCell(value: string | number): string {
     const str = String(value ?? "");
@@ -259,7 +240,6 @@ export default function WarehouseStaffMoveHistoryPage() {
       "To",
       "Quantity",
       "Direction",
-      "Status",
       "Product",
     ];
 
@@ -272,7 +252,6 @@ export default function WarehouseStaffMoveHistoryPage() {
         row.to,
         row.quantity,
         row.direction,
-        row.status,
         row.productName,
       ]
         .map(escapeCsvCell)
@@ -459,7 +438,6 @@ export default function WarehouseStaffMoveHistoryPage() {
                   <th className="px-4 py-3">From</th>
                   <th className="px-4 py-3">To</th>
                   <th className="px-4 py-3">Quantity</th>
-                  <th className="px-4 py-3">Status</th>
                 </tr>
               </thead>
               <tbody>
@@ -477,13 +455,7 @@ export default function WarehouseStaffMoveHistoryPage() {
                           ? `-${row.quantity}`
                           : row.quantity}
                     </td>
-                    <td className="px-4 py-3">
-                      <span
-                        className={`inline-flex rounded-full px-2 py-1 text-xs font-semibold ${statusClassName(row.status)}`}
-                      >
-                        {row.status}
-                      </span>
-                    </td>
+                   
                   </tr>
                 ))}
               </tbody>
@@ -496,43 +468,7 @@ export default function WarehouseStaffMoveHistoryPage() {
         </div>
       ) : null}
 
-      {!isLoading && !isError && view === "kanban" ? (
-        <div className="grid gap-4 md:grid-cols-3">
-          {(
-            ["Ready", "In Use", "Done"] as const
-          ).map((status) => (
-            <section key={status} className="rounded-xl border border-slate-200 bg-white p-3 shadow-sm">
-              <div className="mb-3 flex items-center justify-between border-b border-slate-100 pb-2">
-                <h2 className="text-sm font-semibold text-slate-800">{status}</h2>
-                <span className="rounded-full bg-slate-100 px-2 py-0.5 text-xs text-slate-600">
-                  {groupedByStatus[status].length}
-                </span>
-              </div>
 
-              <div className="space-y-2">
-                {groupedByStatus[status].map((row) => (
-                  <article key={row.id} className="rounded-lg border border-slate-200 p-3">
-                    <p className="text-xs font-semibold text-blue-700">{row.reference}</p>
-                    <p className="mt-1 text-sm text-slate-900">{row.productName}</p>
-                    <p className="mt-1 text-xs text-slate-600">
-                      {row.from} to {row.to}
-                    </p>
-                    <p className={`mt-2 text-xs font-semibold ${directionClassName(row.direction)}`}>
-                      {row.direction} {row.quantity}
-                    </p>
-                  </article>
-                ))}
-
-                {groupedByStatus[status].length === 0 ? (
-                  <p className="rounded-lg border border-dashed border-slate-200 p-3 text-xs text-slate-500">
-                    No moves in this status.
-                  </p>
-                ) : null}
-              </div>
-            </section>
-          ))}
-        </div>
-      ) : null}
 
       {isCreateModalOpen ? (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-slate-900/40 p-4">

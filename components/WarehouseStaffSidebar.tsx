@@ -1,9 +1,7 @@
 "use client";
 
 import {
-  LayoutDashboard,
   History,
-  ClipboardList,
   Boxes,
 } from "lucide-react";
 import Image from "next/image";
@@ -21,11 +19,6 @@ function formatRole(role?: string) {
 }
 
 const NAV_ITEMS = [
-  {
-    label: "Dashboard",
-    href: "/warehouse-staff",
-    icon: LayoutDashboard,
-  },
   {
     label: "Move History",
     href: "/warehouse-staff/move-history",

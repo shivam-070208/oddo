@@ -36,19 +36,6 @@ function getStatus(row: LocationRow): Status {
   return "Active";
 }
 
-function StatusBadge({ status }: { status: Status }) {
-  const styles: Record<Status, string> = {
-    Active: "bg-green-100 text-green-700",
-    "In Use": "bg-blue-100 text-blue-700",
-    Busy: "bg-orange-100 text-orange-700",
-  };
-
-  return (
-    <span className={`px-2 py-1 text-xs rounded-md font-medium ${styles[status]}`}>
-      {status}
-    </span>
-  );
-}
 
 const ROWS_PER_PAGE = 20;
 
@@ -386,7 +373,6 @@ const LocationTable = () => {
                   <th className="px-5 py-3">Location Name</th>
                   <th className="px-5 py-3">Short Code</th>
                   <th className="px-5 py-3">Warehouse</th>
-                  <th className="px-5 py-3">Status</th>
                   <th className="px-5 py-3 text-right">Actions</th>
                 </tr>
               </thead>
@@ -394,7 +380,6 @@ const LocationTable = () => {
               <tbody className="text-sm text-slate-700">
                 {visibleRows.map((item) => {
                   const isEditing = editingId === item.id;
-                  const status = getStatus(item);
                   return (
                     <tr key={item.id} className="border-b border-slate-100 last:border-none hover:bg-slate-50/70">
                       <td className="px-5 py-4">
@@ -447,9 +432,7 @@ const LocationTable = () => {
                         )}
                       </td>
 
-                      <td className="px-5 py-4">
-                        <StatusBadge status={status} />
-                      </td>
+         
 
                       <td className="px-5 py-4">
                         <div className="flex justify-end gap-2 text-slate-500">

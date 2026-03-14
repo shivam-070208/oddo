@@ -12,6 +12,16 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "@/hooks/use-session";
+
+function formatRole(role?: string) {
+  if (!role) return "";
+  return role
+    .toLowerCase()
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
 
 const navItems = [
   { href: "/inventory-manager", icon: LayoutDashboard, label: "Dashboard" },
@@ -28,6 +38,9 @@ const navItems = [
 
 const Sidebar = () => {
   const pathname = usePathname();
+  const { data } = useSession();
+  const user = data?.session?.user;
+
   return (
     <div className="h-screen w-64 shrink-0 border-r border-slate-200 bg-white flex flex-col justify-between p-4 print:hidden">
       <div>
@@ -83,8 +96,8 @@ const Sidebar = () => {
             />
           </div>
           <div>
-            <p className="text-sm font-semibold text-gray-800">Alex Johnson</p>
-            <p className="text-xs text-gray-500">Manager</p>
+            <p className="text-sm font-semibold text-gray-800">{user?.name ?? "User"}</p>
+            <p className="text-xs text-gray-500">{formatRole(user?.role) || "Unknown Role"}</p>
           </div>
         </div>
       </div>

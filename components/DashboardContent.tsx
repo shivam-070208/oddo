@@ -1,70 +1,62 @@
+"use client";
+
 import { ComponentType } from "react";
 import Table from "@/components/RecentTable";
 import {
   Package,
-  AlertTriangle,
+  Boxes,
   ArrowDownToLine,
   Truck,
-  Plus,
-  TrendingUp,
-  TrendingDown,
 } from "lucide-react";
+import { useDashboardSummary } from "@/hooks/use-dashboard-summary";
 
 type StatCard = {
   label: string;
   value: string;
-  change: string;
-  up: boolean;
   icon: ComponentType<{ size?: number; className?: string }>;
   iconBg: string;
   iconColor: string;
 };
 
-const statCards: StatCard[] = [
-  {
-    label: "Total Products",
-    value: "1,284",
-    change: "+2.5%",
-    up: true,
-    icon: Package,
-    iconBg: "bg-blue-100",
-    iconColor: "text-blue-500",
-  },
-  {
-    label: "Low Stock",
-    value: "12",
-    change: "-5.2%",
-    up: false,
-    icon: AlertTriangle,
-    iconBg: "bg-yellow-100",
-    iconColor: "text-yellow-500",
-  },
-  {
-    label: "Pending Receipts",
-    value: "48",
-    change: "+12%",
-    up: true,
-    icon: ArrowDownToLine,
-    iconBg: "bg-green-100",
-    iconColor: "text-green-500",
-  },
-  {
-    label: "Pending Deliveries",
-    value: "32",
-    change: "-8%",
-    up: false,
-    icon: Truck,
-    iconBg: "bg-purple-100",
-    iconColor: "text-purple-500",
-  },
-];
 const DashboardContent = () => {
+  const { data, isLoading, isError } = useDashboardSummary();
+
+  const statCards: StatCard[] = [
+    {
+      label: "Total Products",
+      value: isLoading ? "..." : String(data?.totalProducts ?? 0),
+      icon: Package,
+      iconBg: "bg-blue-100",
+      iconColor: "text-blue-500",
+    },
+    {
+      label: "Total Stock Qty",
+      value: isLoading ? "..." : String(data?.totalStockQuantity ?? 0),
+      icon: Boxes,
+      iconBg: "bg-yellow-100",
+      iconColor: "text-yellow-600",
+    },
+    {
+      label: "Pending Receipts",
+      value: isLoading ? "..." : String(data?.pendingReceipts ?? 0),
+      icon: ArrowDownToLine,
+      iconBg: "bg-green-100",
+      iconColor: "text-green-600",
+    },
+    {
+      label: "Pending Deliveries",
+      value: isLoading ? "..." : String(data?.pendingDeliveries ?? 0),
+      icon: Truck,
+      iconBg: "bg-purple-100",
+      iconColor: "text-purple-500",
+    },
+  ];
+
   return (
     <main className="flex-1 overflow-y-auto p-6 space-y-6">
       <div className="grid grid-cols-4 gap-4">
         {statCards.map((card) => {
           const Icon = card.icon;
-          const Trend = card.up ? TrendingUp : TrendingDown;
           return (
             <div
               key={card.label}
@@ -74,15 +66,8 @@ const DashboardContent = () => {
                 <div className={`p-2 rounded-lg ${card.iconBg}`}>
                   <Icon size={20} className={card.iconColor} />
                 </div>
-                <span
-                  className={`flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full ${
-                    card.up
-                      ? "text-green-600 bg-green-50"
-                      : "text-red-500 bg-red-50"
-                  }`}
-                >
-                  <Trend size={11} />
-                  {card.change}
+                <span className="text-xs font-semibold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
+                  Live
                 </span>
               </div>
               <div>
@@ -93,33 +78,13 @@ const DashboardContent = () => {
           );
         })}
       </div>
-      <div className="grid grid-cols-2 gap-4">
-        <div className="rounded-xl p-7 flex flex-col gap-3 bg-linear-to-br from-indigo-500 via-blue-500 to-purple-600 text-white shadow-md">
-          <h2 className="text-xl font-bold">Incoming Shipments</h2>
-          <p className="text-sm text-blue-100 leading-relaxed">
-            Register new stock arriving from suppliers or warehouse transfers.
-          </p>
-          <div className="mt-2">
-            <button className="flex items-center gap-2 border border-white text-white text-sm font-semibold px-5 py-2 rounded-lg hover:bg-white hover:text-blue-600 transition-colors duration-200">
-              <Plus size={16} />
-              Create Receipt
-            </button>
-          </div>
-        </div>
 
-        <div className="rounded-xl p-7 flex flex-col gap-3 bg-gray-900 text-white shadow-md">
-          <h2 className="text-xl font-bold">Outgoing Shipments</h2>
-          <p className="text-sm text-gray-400 leading-relaxed">
-            Prepare products for delivery to customers or external locations.
-          </p>
-          <div className="mt-2">
-            <button className="flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-semibold px-5 py-2 rounded-lg transition-colors duration-200">
-              <Truck size={16} />
-              Create Delivery
-            </button>
-          </div>
-        </div>
-      </div>
+      {isError ? (
+        <p className="rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm text-red-700">
+          Failed to load dashboard summary.
+        </p>
+      ) : null}
+
 
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
         <div className="flex items-center justify-between mb-4">
