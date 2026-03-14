@@ -48,11 +48,18 @@ async function loginApi(payload: LoginPayload): Promise<LoginResponse> {
 export function useLogin() {
   const router = useRouter();
 
+  function resolveRouteByRole(role: string): string {
+    if (role === "ADMIN") return "/admin";
+    if (role === "INVENTORY_MANAGER") return "/inventory-manager";
+    if (role === "WAREHOUSE_STAFF") return "/warehouse-staff/move-history";
+    return "/";
+  }
+
   return useMutation({
     mutationFn: loginApi,
-    onSuccess: () => {
+    onSuccess: (data) => {
       toast.success("Login successful");
-      router.push("/");
+      router.push(resolveRouteByRole(data.user.role));
       router.refresh();
     },
     onError: (err: Error) => {
