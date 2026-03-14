@@ -1,5 +1,5 @@
 import Navbar from "@/components/Navbar";
-import Sidebar from "@/components/Sidebar";
+import WarehouseStaffSidebar from "@/components/WarehouseStaffSidebar";
 import { UserRole } from "@/app/generated/prisma/enums";
 import { getAuthContext } from "@/lib/auth-utils";
 import { redirect } from "next/navigation";
@@ -20,7 +20,7 @@ export default async function WarehouseStaffLayout({
 
   return (
     <div className="flex min-h-screen bg-slate-50">
-      <Sidebar />
+      <WarehouseStaffSidebar />
       <div className="flex flex-1 flex-col">
         <Navbar />
         <main className="flex-1 p-6">{children}</main>
