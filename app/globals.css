@@ -8,8 +8,9 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+  --font-display: var(--font-plus-jakarta), var(--font-geist-sans), ui-sans-serif, sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -22,5 +23,81 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-display {
+  font-family: var(--font-plus-jakarta), var(--font-geist-sans), ui-sans-serif, sans-serif;
+}
+
+/* Slice button hover: diagonal sweep */
+.btn-slice {
+  position: relative;
+  overflow: hidden;
+}
+.btn-slice .btn-slice-inner {
+  position: absolute;
+  inset: 0;
+  width: 140%;
+  left: -20%;
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    transparent 45%,
+    rgba(0, 0, 0, 0.12) 50%,
+    rgba(0, 0, 0, 0.12) 100%
+  );
+  transform: translateX(-100%) skewX(-18deg);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: none;
+}
+.btn-slice:hover .btn-slice-inner {
+  transform: translateX(0) skewX(-18deg);
+}
+.btn-slice:active .btn-slice-inner {
+  transition-duration: 0.15s;
+}
+
+/* Slice on violet/purple button - light sweep */
+.btn-slice.btn-slice-violet .btn-slice-inner {
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    transparent 45%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.2) 100%
+  );
+}
+.btn-slice.btn-slice-violet:hover .btn-slice-inner {
+  transform: translateX(0) skewX(-18deg);
+}
+
+/* Inventory theme (login page) */
+.login-theme {
+  --login-bg: #0f172a;
+  --login-card: #1e293b;
+  --login-primary: #38bdf8;
+  --login-accent: #22c55e;
+  --login-border: #334155;
+  --login-text: #f1f5f9;
+  --login-text-muted: #94a3b8;
+  --login-input-bg: #0f172a;
+  --login-error: #f87171;
+}
+
+/* Slice button on primary (sky blue) */
+.btn-slice-primary .btn-slice-inner {
+  background: linear-gradient(
+    105deg,
+    transparent 0%,
+    transparent 45%,
+    rgba(255, 255, 255, 0.2) 50%,
+    rgba(255, 255, 255, 0.2) 100%
+  );
+}
+.btn-slice-primary:hover .btn-slice-inner {
+  transform: translateX(0) skewX(-18deg);
+}
+.btn-slice-primary:active .btn-slice-inner {
+  transition-duration: 0.15s;
 }
