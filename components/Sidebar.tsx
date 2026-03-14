@@ -64,6 +64,10 @@ const Sidebar = () => {
         </nav>
 
         <div className="flex-col items-center justify-center">
+         
+
+
+=======
           <p className="text-sm text-gray-400 p-1 m-1">System</p>
           <a className="flex items-center gap-3 p-1 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400">
             <Settings size={18} />
@@ -90,7 +94,7 @@ const Sidebar = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default Sidebar;

@@ -11,11 +11,9 @@ const Navbar = () => {
           className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-400"
         />
       </div>
-
       <div className="flex items-center gap-6">
         <Bell className="cursor-pointer text-gray-400" />
         <HelpCircle className="cursor-pointer text-gray-400" />
-
         <div className="flex items-center gap-1 text-gray-600">
           <span>Stockholm DC</span>
           <MapPin size={20} className="cursor-pointer text-gray-400 ml-1" />
