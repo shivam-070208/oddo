@@ -3,6 +3,7 @@
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 import { useLogin, type LoginFormRole } from "./useLogin";
 
 type LoginFormValues = {
@@ -40,8 +41,16 @@ function WarehouseIcon({ className }: { className?: string }) {
   );
 }
 
+// Role route map for redirection after success
+const ROLE_ROUTES: Record<LoginFormRole, string> = {
+  admin: "/admin",
+  warehouse_staff: "/warehouse",
+  inventory_manager: "/inventory-manager",
+};
+
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
   const login = useLogin();
   const {
     register,
@@ -59,7 +68,15 @@ export default function LoginForm() {
   const selectedRole = watch("role");
 
   const onSubmit = (data: LoginFormValues) => {
-    login.mutate({ email: data.email, password: data.password, role: data.role });
+    login.mutate(
+      { email: data.email, password: data.password, role: data.role },
+      {
+        onSuccess: () => {
+          // Redirect based on role (fallback to / if not mapped)
+          router.push(ROLE_ROUTES[data.role] || "/");
+        },
+      }
+    );
   };
 
   return (

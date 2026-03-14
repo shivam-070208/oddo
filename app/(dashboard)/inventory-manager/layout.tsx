@@ -1,13 +1,18 @@
 import Navbar from "@/components/Navbar";
 import Sidebar from "./_components/sidebar";
+import { getAuthContext } from "@/lib/auth-utils";
+import { redirect } from "next/navigation";
 
-
-
-export default function InventoryManagerLayout({
+export default async function InventoryManagerLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const auth = await getAuthContext();
+  if (!auth) {
+    redirect("/login");
+  }
+
   return (
     <div className="flex h-screen overflow-hidden bg-slate-50">
       <Sidebar />

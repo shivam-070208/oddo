@@ -1,7 +1,26 @@
-import { Bell, HelpCircle, MapPin } from "lucide-react";
-
+"use client";
+import { useRouter } from "next/navigation";
+import { Bell, HelpCircle } from "lucide-react";
+import { useLogout } from "../hooks/use-logout";
 
 const Navbar = () => {
+  const router = useRouter();
+  const logout = useLogout();
+
+  const handleLogout = () => {
+    logout.mutate(undefined, {
+      onSuccess: () => {
+        router.push("/login");
+      },
+      onError: (err) => {
+        alert(err?.message || "Failed to logout");
+      },
+    });
+  };
+
+  // react-query v4: "isLoading" does not exist on useMutation, use "isPending"
+  const isLoggingOut = logout.isPending;
+
   return (
     <div className="w-full h-20 bg-white border-b flex items-center justify-between px-6 py-5 print:hidden">
       <div className="flex-1 max-w-md">
@@ -16,18 +35,16 @@ const Navbar = () => {
         <Bell className="cursor-pointer text-gray-400" />
         <HelpCircle className="cursor-pointer text-gray-400" />
 
-        <div className="flex items-center gap-1 text-gray-600">
-          <span>Stockholm DC</span>
-          <MapPin size={20} className="cursor-pointer text-gray-400 ml-1" />
-        </div>
-        
+        <button
+          onClick={handleLogout}
+          className="px-4 py-2 rounded-lg bg-red-500 text-white transition-colors hover:bg-red-600"
+          disabled={isLoggingOut}
+        >
+          {isLoggingOut ? "Logging out..." : "Logout"}
+        </button>
       </div>
     </div>
   );
-
-}
-
+};
 
 export default Navbar;
-
-

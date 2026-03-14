@@ -3,11 +3,11 @@
 import {
   LayoutDashboard,
   Package,
-  Settings,
   History,
   ClipboardList,
   Boxes,
   FileText,
+  Truck,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -15,10 +15,15 @@ import { usePathname } from "next/navigation";
 
 const navItems = [
   { href: "/inventory-manager", icon: LayoutDashboard, label: "Dashboard" },
-  { href: "/inventory-manager", icon: Package, label: "Inventory" },
+  {
+    href: "/inventory-manager/inventory",
+    icon: Package,
+    label: "Inventory",
+  },
   { href: "/inventory-manager/receipt", icon: FileText, label: "Receipts" },
-  { href: "/inventory-manager", icon: ClipboardList, label: "Products" },
-  { href: "/inventory-manager", icon: History, label: "Transfers" },
+  { href: "/inventory-manager/delivery", icon: Truck, label: "Deliveries" },
+  { href: "/inventory-manager/products", icon: ClipboardList, label: "Products" },
+  { href: "/inventory-manager/transfers", icon: History, label: "Transfers" },
 ];
 
 const Sidebar = () => {
@@ -39,6 +44,14 @@ const Sidebar = () => {
             const isActive =
               label === "Receipts"
                 ? pathname?.startsWith("/inventory-manager/receipt")
+                : label === "Deliveries"
+                ? pathname?.startsWith("/inventory-manager/delivery")
+                : label === "Products"
+                ? pathname?.startsWith("/inventory-manager/products")
+                : label === "Inventory"
+                ? pathname?.startsWith("/inventory-manager/inventory")
+                : label === "Transfers"
+                ? pathname?.startsWith("/inventory-manager/transfers")
                 : pathname === href;
             return (
               <Link
@@ -56,19 +69,6 @@ const Sidebar = () => {
             );
           })}
         </nav>
-
-        <div className="mt-4">
-          <p className="mb-1 px-2 text-xs font-medium uppercase tracking-wider text-gray-400">
-            System
-          </p>
-          <Link
-            href="/inventory-manager"
-            className="flex items-center gap-3 rounded-lg p-2.5 text-sm text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
-          >
-            <Settings size={18} />
-            <span className="font-medium">Settings</span>
-          </Link>
-        </div>
       </div>
 
       <div>
