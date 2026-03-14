@@ -1,5 +1,8 @@
 
+<<<<<<< HEAD
+=======
 
+>>>>>>> d057c8a33021d5b2898330e3097638041cae9019
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import DashboardContent from "@/components/DashboardContent";
@@ -15,6 +18,10 @@ const Home = () => {
     </div>
   );
 };
+<<<<<<< HEAD
+
+=======
+>>>>>>> d057c8a33021d5b2898330e3097638041cae9019
 
 export default Home;
 

@@ -1,3 +1,4 @@
+import { getAuthContext } from "@/lib/auth-utils";
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
@@ -24,16 +25,24 @@ export async function GET() {
 }
 
 // POST /api/receipts - Create receipt
+
 export async function POST(request: NextRequest) {
   try {
-    const body = await request.json();
-    const { reference, vendor, status, scheduledDate, responsibleId } = body;
+    // Get authenticated user
+    const authContext = await getAuthContext();
+    if (!authContext?.user?.id) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+    const responsibleId = authContext.user.id;
 
-    if (!reference || !vendor || !status || !scheduledDate || !responsibleId) {
+    const body = await request.json();
+    const { reference, vendor, status, scheduledDate } = body;
+
+    if (!reference || !vendor || !status || !scheduledDate) {
       return NextResponse.json(
         {
           error:
-            "Missing required fields: reference, vendor, status, scheduledDate, responsibleId",
+            "Missing required fields: reference, vendor, status, scheduledDate",
         },
         { status: 400 }
       );
@@ -55,13 +64,13 @@ export async function POST(request: NextRequest) {
     });
 
     return NextResponse.json(receipt, { status: 201 });
-  } catch (error: any) {
+  } catch (error) {
     console.error("Error creating receipt:", error);
 
-    if (error?.code === "P2002") {
+    if ((error as any)?.code === "P2002") {
       return NextResponse.json({ error: "Reference already exists" }, { status: 409 });
     }
-    if (error?.code === "P2003") {
+    if ((error as any)?.code === "P2003") {
       return NextResponse.json({ error: "Invalid responsibleId" }, { status: 400 });
     }
 

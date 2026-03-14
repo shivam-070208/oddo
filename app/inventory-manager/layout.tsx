@@ -1,5 +1,7 @@
 import Navbar from "@/components/Navbar";
-import Sidebar from "@/components/Sidebar";
+import Sidebar from "./_components/sidebar";
+
+
 
 export default function InventoryManagerLayout({
   children,
