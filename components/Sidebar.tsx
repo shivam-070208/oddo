@@ -7,89 +7,78 @@ import {
   History,
   ClipboardList,
   Boxes,
-  FileText,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const navItems = [
-  { href: "/inventory-manager", icon: LayoutDashboard, label: "Dashboard" },
-  { href: "/inventory-manager", icon: Package, label: "Inventory" },
-  { href: "/inventory-manager/receipt", icon: FileText, label: "Receipts" },
-  { href: "/inventory-manager", icon: ClipboardList, label: "Products" },
-  { href: "/inventory-manager", icon: History, label: "Transfers" },
+  { href: "/admin", label: "Dashboard", icon: LayoutDashboard },
+  { href: "/admin/operations", label: "Operations", icon: ClipboardList },
+  { href: "/admin/products", label: "Products", icon: Package },
+  { href: "/admin/move-history", label: "Move History", icon: History },
 ];
 
-const Sidebar = () => {
+export default function Sidebar() {
   const pathname = usePathname();
+
   return (
-    <div className="h-screen w-64 shrink-0 border-r border-slate-200 bg-white flex flex-col justify-between p-4">
+    <div className="flex h-screen w-64 flex-col justify-between border-r border-slate-200 bg-white p-4">
       <div>
         <div className="mb-7 flex items-center gap-2">
           <Boxes size={34} className="text-blue-500" />
           <div className="flex flex-col justify-center">
-            <h1 className="text-xl font-bold text-black">StockFlow</h1>
-            <h3 className="text-sm text-gray-400">Warehouse Alpha</h3>
+            <h1 className="text-xl font-bold text-black">InventoryMS</h1>
+            <h3 className="text-sm text-slate-400">SaaS Management</h3>
           </div>
         </div>
-
-        <nav className="space-y-1">
-          {navItems.map(({ href, icon: Icon, label }) => {
-            const isActive =
-              label === "Receipts"
-                ? pathname?.startsWith("/inventory-manager/receipt")
-                : pathname === href;
+        <nav className="space-y-2">
+          {navItems.map(({ href, label, icon: Icon }) => {
+            const isActive = pathname === href;
             return (
               <Link
-                key={label}
+                key={href}
                 href={href}
-                className={`flex items-center gap-3 rounded-lg p-2.5 text-sm transition-colors ${
+                className={`flex items-center gap-3 rounded-lg p-2 transition-colors ${
                   isActive
-                    ? "bg-violet-100 text-violet-700"
-                    : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                    ? "bg-blue-500 text-white"
+                    : "text-slate-600 hover:bg-blue-400 hover:text-white"
                 }`}
               >
                 <Icon size={18} />
-                <span className="font-medium">{label}</span>
+                <p>{label}</p>
               </Link>
             );
           })}
         </nav>
-
-        <div className="mt-4">
-          <p className="mb-1 px-2 text-xs font-medium uppercase tracking-wider text-gray-400">
-            System
-          </p>
+        <div className="mt-4 flex flex-col items-center justify-center">
+          <p className="m-1 p-1 text-sm text-slate-400">System</p>
           <Link
-            href="/inventory-manager"
-            className="flex items-center gap-3 rounded-lg p-2.5 text-sm text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
+            href="/admin/settings"
+            className="flex items-center gap-3 rounded-lg p-1 text-slate-600 transition-colors hover:bg-blue-400 hover:text-white"
           >
             <Settings size={18} />
-            <span className="font-medium">Settings</span>
+            <p className="p-1 text-center">Settings</p>
           </Link>
         </div>
       </div>
-
       <div>
-        <div className="flex items-center gap-3 p-3 mt-auto border-t">
-          <div className="w-10 h-10 rounded-full bg-orange-200 flex items-center justify-center">
+        <div className="mt-auto flex items-center gap-3 border-t border-slate-200 p-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-full bg-orange-200">
             <Image
               src="/profile.jpg"
               width={40}
               height={40}
-              alt="profile"
-              className="w-full h-full rounded-full object-cover"
+              alt="Profile"
+              className="h-full w-full rounded-full object-cover"
             />
           </div>
           <div>
-            <p className="text-sm font-semibold text-gray-800">Alex Johnson</p>
-            <p className="text-xs text-gray-500">Manager</p>
+            <p className="text-sm font-semibold text-slate-800">Alex Rivera</p>
+            <p className="text-xs text-slate-500">Admin</p>
           </div>
         </div>
       </div>
     </div>
   );
-};
-
-export default Sidebar;
+}
