@@ -1,6 +1,5 @@
-"use client";
-
-import Table from "@/components/Table";
+import { ComponentType } from "react";
+import Table from "@/components/RecentTable";
 import {
   Package,
   AlertTriangle,
@@ -11,7 +10,17 @@ import {
   TrendingDown,
 } from "lucide-react";
 
-const statCards = [
+type StatCard = {
+  label: string;
+  value: string;
+  change: string;
+  up: boolean;
+  icon: ComponentType<{ size?: number; className?: string }>;
+  iconBg: string;
+  iconColor: string;
+};
+
+const statCards: StatCard[] = [
   {
     label: "Total Products",
     value: "1,284",
@@ -53,8 +62,6 @@ const statCards = [
 const DashboardContent = () => {
   return (
     <main className="flex-1 overflow-y-auto p-6 space-y-6">
-
-      {/* Stat Cards */}
       <div className="grid grid-cols-4 gap-4">
         {statCards.map((card) => {
           const Icon = card.icon;
@@ -81,18 +88,14 @@ const DashboardContent = () => {
               </div>
               <div>
                 <p className="text-sm text-gray-400">{card.label}</p>
-                <p className="text-3xl font-bold text-gray-800 mt-0.5">
-                  {card.value}
-                </p>
+                <p className="text-3xl font-bold text-gray-800 mt-0.5">{card.value}</p>
               </div>
             </div>
           );
         })}
       </div>
 
-      {/* Action Cards */}
       <div className="grid grid-cols-2 gap-4">
-        {/* Incoming Shipments */}
         <div className="rounded-xl p-7 flex flex-col gap-3 bg-linear-to-br from-indigo-500 via-blue-500 to-purple-600 text-white shadow-md">
           <h2 className="text-xl font-bold">Incoming Shipments</h2>
           <p className="text-sm text-blue-100 leading-relaxed">
@@ -106,7 +109,6 @@ const DashboardContent = () => {
           </div>
         </div>
 
-        {/* Outgoing Shipments */}
         <div className="rounded-xl p-7 flex flex-col gap-3 bg-gray-900 text-white shadow-md">
           <h2 className="text-xl font-bold">Outgoing Shipments</h2>
           <p className="text-sm text-gray-400 leading-relaxed">
@@ -121,22 +123,15 @@ const DashboardContent = () => {
         </div>
       </div>
 
-      {/* Recent Activities */}
       <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-bold text-gray-800">
-            Recent Activities
-          </h2>
-          <a
-            href="#"
-            className="text-sm text-indigo-500 font-semibold hover:underline"
-          >
+          <h2 className="text-base font-bold text-gray-800">Recent Activities</h2>
+          <a href="#" className="text-sm text-indigo-500 font-semibold hover:underline">
             View All
           </a>
         </div>
         <Table />
       </div>
-
     </main>
   );
 };
