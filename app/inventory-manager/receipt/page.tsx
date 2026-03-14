@@ -16,9 +16,9 @@ import {
   Trash2,
 } from "lucide-react";
 
-// Mock data aligned with schema: Receipt (reference, vendor, status, scheduledDate, responsible), ReceiptItem (quantity), Product (name, sku, unit)
 const RECEIPT_REFERENCE = "WH/IN/00142";
 const CREATED = "Oct 24, 2023";
+const RECEIPT_STATUS: "DRAFT" | "READY" | "DONE" | "CANCELLED" = "READY";
 
 const infoCards = [
   {
@@ -158,8 +158,18 @@ export default function ReceiptPage() {
               <ArrowLeft size={20} />
             </Link>
             <h1 className="text-2xl font-bold text-slate-900">{RECEIPT_REFERENCE}</h1>
-            <span className="rounded-md bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700">
-              READY
+            <span
+              className={
+                RECEIPT_STATUS === "CANCELLED"
+                  ? "rounded-md bg-red-100 px-2.5 py-1 text-xs font-semibold text-red-700"
+                  : RECEIPT_STATUS === "DONE"
+                    ? "rounded-md bg-emerald-100 px-2.5 py-1 text-xs font-semibold text-emerald-700"
+                    : RECEIPT_STATUS === "DRAFT"
+                      ? "rounded-md bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700"
+                      : "rounded-md bg-blue-100 px-2.5 py-1 text-xs font-semibold text-blue-700"
+              }
+            >
+              {RECEIPT_STATUS}
             </span>
           </div>
           <p className="mt-1 text-sm text-slate-500">

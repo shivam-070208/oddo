@@ -1,6 +1,14 @@
 "use client";
 
-import { LayoutDashboard, Package, Settings, History, ClipboardList, Boxes, FileText } from "lucide-react";
+import {
+  LayoutDashboard,
+  Package,
+  Settings,
+  History,
+  ClipboardList,
+  Boxes,
+  FileText,
+} from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -28,7 +36,10 @@ const Sidebar = () => {
 
         <nav className="space-y-1">
           {navItems.map(({ href, icon: Icon, label }) => {
-            const isActive = label === "Receipts" ? pathname?.startsWith("/inventory-manager/receipt") : pathname === href;
+            const isActive =
+              label === "Receipts"
+                ? pathname?.startsWith("/inventory-manager/receipt")
+                : pathname === href;
             return (
               <Link
                 key={label}
@@ -45,10 +56,11 @@ const Sidebar = () => {
             );
           })}
         </nav>
-       
 
         <div className="mt-4">
-          <p className="mb-1 px-2 text-xs font-medium uppercase tracking-wider text-gray-400">System</p>
+          <p className="mb-1 px-2 text-xs font-medium uppercase tracking-wider text-gray-400">
+            System
+          </p>
           <Link
             href="/inventory-manager"
             className="flex items-center gap-3 rounded-lg p-2.5 text-sm text-slate-600 transition-colors hover:bg-slate-100 hover:text-slate-900"
@@ -58,34 +70,26 @@ const Sidebar = () => {
           </Link>
         </div>
       </div>
+
       <div>
         <div className="flex items-center gap-3 p-3 mt-auto border-t">
-
- 
-  <div className="w-10 h-10 rounded-full bg-orange-200 flex items-center justify-center">
-    <Image
-      src="/profile.jpg"
-      width={40} height={40}
-      alt="profile"
-      className="w-full h-full rounded-full object-cover"
-    />
-  </div>
-
- 
-  <div>
-    <p className="text-sm font-semibold text-gray-800">Alex Johnson</p>
-    <p className="text-xs text-gray-500">Manager</p>
-  </div>
-
-</div>
-        
-
+          <div className="w-10 h-10 rounded-full bg-orange-200 flex items-center justify-center">
+            <Image
+              src="/profile.jpg"
+              width={40}
+              height={40}
+              alt="profile"
+              className="w-full h-full rounded-full object-cover"
+            />
+          </div>
+          <div>
+            <p className="text-sm font-semibold text-gray-800">Alex Johnson</p>
+            <p className="text-xs text-gray-500">Manager</p>
+          </div>
+        </div>
       </div>
-
-      
-
     </div>
   );
-}
+};
 
 export default Sidebar;
