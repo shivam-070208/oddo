@@ -1,15 +1,4 @@
-<<<<<<< HEAD
 
-const Home=()=>{
-  return (
-   <div>
-   hi
-    
-   </div>
-
-    
-
-=======
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import DashboardContent from "@/components/DashboardContent";
@@ -25,6 +14,5 @@ const Home = () => {
     </div>
   );
 };
->>>>>>> 7f80b71627b44032306bbc09f09f94db4a7e5f50
 
 export default Home;

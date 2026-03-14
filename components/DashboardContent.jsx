@@ -1,5 +1,4 @@
 "use client";
-
 import Table from "@/components/Table";
 import {
   Package,
@@ -49,11 +48,9 @@ const statCards = [
     iconColor: "text-purple-500",
   },
 ];
-
 const DashboardContent = () => {
   return (
     <main className="flex-1 overflow-y-auto p-6 space-y-6">
-
       {/* Stat Cards */}
       <div className="grid grid-cols-4 gap-4">
         {statCards.map((card) => {
@@ -89,7 +86,6 @@ const DashboardContent = () => {
           );
         })}
       </div>
-
       {/* Action Cards */}
       <div className="grid grid-cols-2 gap-4">
         {/* Incoming Shipments */}

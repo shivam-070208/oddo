@@ -57,8 +57,6 @@ export default function AddProductForm() {
                 <option>Hardware</option>
               </select>
             </div>
-
-          
             <div>
               <label className="text-sm font-medium text-gray-800">Unit of Measure</label>
               <input
@@ -67,8 +65,6 @@ export default function AddProductForm() {
                 className="mt-1 w-full border rounded-md px-3 py-2 text-sm focus:ring-2  outline-none border-gray-300 text-gray-500"
               />
             </div>
-
-          
             <div>
               <label className="text-sm font-medium text-gray-800">Initial Stock</label>
               <input
@@ -77,26 +73,18 @@ export default function AddProductForm() {
                 className="mt-1 w-full border rounded-md px-3 py-2 text-sm focus:ring-2  outline-none border-gray-300 text-gray-500"
               />
             </div>
-
-          </div>
-
-         
-          <div>
+          </div> <div>
             <label className="text-sm font-medium text-gray-800 ">Warehouse Location</label>
-
             <select className="mt-1 w-full border rounded-md px-3 py-2 text-sm focus:ring-2  outline-none border-gray-300 text-gray-500">
               <option >Select Warehouse</option>
               <option >Central Hub (New York)</option>
               <option>West Coast Logistics (LA)</option>
               <option>EU Distribution (Berlin)</option>
             </select>
-
             <p className="text-xs text-gray-400 mt-1">
               Assigning a warehouse helps immediate stock allocation.
             </p>
           </div>
-
-  
           <div className="flex items-start gap-2 bg-gray-50 p-3 rounded-md text-sm text-gray-500">
             <Info size={16} className="text-blue-500 mt-0.5" />
             <p>
@@ -104,25 +92,17 @@ export default function AddProductForm() {
               {/* records once you click "Create Product". */}
             </p>
           </div>
-
         </div>
-
-       
         <div className="flex justify-end gap-3 border-t px-6 py-4">
-
           <button className="text-gray-600 hover:text-gray-800 text-sm">
             Cancel
           </button>
-
           <button className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-md text-sm hover:bg-blue-700">
             <Plus size={16} />
             Create Product
           </button>
-
         </div>
-
       </div>
-
     </div>
   );
 }

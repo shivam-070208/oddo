@@ -22,11 +22,9 @@ const Sidebar = () => {
         <nav className="space-y-2">
           <a className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400">
             <LayoutDashboard size={18} />
-<<<<<<< HEAD:components/Sidebar.tsx
-            <p className="text-black">Dashboard</p>
-=======
+
             <p className="text-black"> Dashboard</p>
->>>>>>> 7f80b71627b44032306bbc09f09f94db4a7e5f50:components/Sidebar.jsx
+
           </a>
 
           <a className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400">
@@ -46,17 +44,13 @@ const Sidebar = () => {
         </nav>
 
         <div className="flex-col items-center justify-center">
-<<<<<<< HEAD:components/Sidebar.tsx
-          <p className="text-sm text-gray-400 p-1 m-1">System</p>
 
-          <a className="flex items-center gap-3 p-1 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400">
-            <Settings size={18} />
 =======
           <p className="text-sm text-gray-400  p-1  m-1">System</p>
           <a className="flex items-center gap-3 p-1 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400 ">
             <Settings size={18} />
 
->>>>>>> 7f80b71627b44032306bbc09f09f94db4a7e5f50:components/Sidebar.jsx
+
             <p className="text-black text-center p-1">Settings</p>
           </a>
         </div>
@@ -64,10 +58,8 @@ const Sidebar = () => {
 
       <div>
         <div className="flex items-center gap-3 p-3 mt-auto border-t">
-<<<<<<< HEAD:components/Sidebar.tsx
-          
-=======
->>>>>>> 7f80b71627b44032306bbc09f09f94db4a7e5f50:components/Sidebar.jsx
+
+
           <div className="w-10 h-10 rounded-full bg-orange-200 flex items-center justify-center">
             <Image
               src="/profile.jpg"
@@ -82,15 +74,10 @@ const Sidebar = () => {
             <p className="text-sm font-semibold text-gray-800">Alex Rivera</p>
             <p className="text-xs text-gray-500">Admin</p>
           </div>
-<<<<<<< HEAD:components/Sidebar.tsx
 
         </div>
       </div>
 
-=======
-        </div>
-      </div>
->>>>>>> 7f80b71627b44032306bbc09f09f94db4a7e5f50:components/Sidebar.jsx
     </div>
   );
 };
