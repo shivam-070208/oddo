@@ -7,6 +7,7 @@ import {
   History,
   ClipboardList,
   Boxes,
+  MapPinned,
 } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
@@ -39,6 +40,13 @@ const Sidebar = () => {
             <Package size={18} />
             <p className="text-black">Products</p>
           </a>
+          <Link
+            href="/inventory-manager/locations"
+            className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400"
+          >
+            <MapPinned size={18} />
+            <p className="text-black">Locations</p>
+          </Link>
           <Link
             href="/categories"
             className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400"
