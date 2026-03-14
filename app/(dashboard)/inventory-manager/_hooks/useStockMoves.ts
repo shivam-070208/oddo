@@ -16,8 +16,11 @@ export type StockMoveRow = {
   createdAt: string;
 };
 
-async function fetchStockMoves(): Promise<StockMoveRow[]> {
-  const res = await fetch("/api/stock-moves");
+async function fetchStockMoves(searchQuery?: string): Promise<StockMoveRow[]> {
+  const params = new URLSearchParams();
+  if (searchQuery?.trim()) params.set("q", searchQuery.trim());
+  const query = params.toString();
+  const res = await fetch(`/api/stock-moves${query ? `?${query}` : ""}`);
   if (!res.ok) {
     throw new Error("Failed to fetch stock moves");
   }
@@ -45,10 +48,10 @@ async function fetchStockMoves(): Promise<StockMoveRow[]> {
   }));
 }
 
-export function useStockMoves() {
+export function useStockMoves(searchQuery?: string) {
   return useQuery({
-    queryKey: ["stock-moves"],
-    queryFn: fetchStockMoves,
+    queryKey: ["stock-moves", searchQuery ?? ""],
+    queryFn: () => fetchStockMoves(searchQuery),
   });
 }
 

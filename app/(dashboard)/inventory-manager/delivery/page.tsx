@@ -10,6 +10,7 @@ import {
   useCreateDelivery,
   type DeliveryRow,
 } from "../_hooks/useDeliveries";
+import { useSearchContext } from "@/contexts/search-context";
 
 type CreateDeliveryForm = {
   reference: string;
@@ -19,7 +20,8 @@ type CreateDeliveryForm = {
 };
 
 export default function DeliveryPage() {
-  const { data: deliveries, isLoading, error } = useDeliveries();
+  const { searchQuery } = useSearchContext();
+  const { data: deliveries, isLoading, error } = useDeliveries(searchQuery);
   const createDelivery = useCreateDelivery();
   const [open, setOpen] = useState(false);
   const [currentUserId, setCurrentUserId] = useState<string | null>(null);
@@ -166,7 +168,7 @@ export default function DeliveryPage() {
                 </p>
               </div>
               {i < steps.length - 1 && (
-                <div className="mx-2 mt-4 h-0.5 min-w-[24px] flex-1 bg-blue-200" />
+                <div className="mx-2 mt-4 h-0.5 min-w-6 flex-1 bg-blue-200" />
               )}
             </div>
           ))}
@@ -224,7 +226,7 @@ export default function DeliveryPage() {
               above.
             </p>
           ) : (
-            <table className="w-full min-w-[720px]">
+            <table className="w-full min-w-180">
               <thead>
                 <tr className="border-b border-slate-200 bg-slate-50/80 text-xs font-semibold uppercase tracking-wider text-slate-500">
                   <th className="px-5 py-3 text-left">Reference</th>

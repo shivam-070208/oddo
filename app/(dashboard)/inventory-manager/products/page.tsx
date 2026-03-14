@@ -6,6 +6,7 @@ import { ClipboardList, Package, Plus } from "lucide-react";
 import { useProducts, useUpsertProduct, type UpsertProductPayload } from "../_hooks/useProducts";
 import { useCategories } from "../_hooks/useCategories";
 import { toast } from "sonner";
+import { useSearchContext } from "@/contexts/search-context";
 
 type ProductFormValues = {
   name: string;
@@ -15,7 +16,8 @@ type ProductFormValues = {
 };
 
 export default function ProductsPage() {
-  const { data: products, isLoading, error } = useProducts();
+  const { searchQuery } = useSearchContext();
+  const { data: products, isLoading, error } = useProducts(searchQuery);
   const { data: categories } = useCategories();
   const upsert = useUpsertProduct();
   const [open, setOpen] = useState(false);

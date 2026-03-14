@@ -3,8 +3,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
 // GET /api/receipts - List all receipts
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const q = request.nextUrl.searchParams.get("q")?.trim().toLowerCase() ?? "";
+
     const receipts = await prisma.receipt.findMany({
       include: {
         responsible: {
@@ -17,7 +19,22 @@ export async function GET() {
       orderBy: { createdAt: "desc" },
     });
 
-    return NextResponse.json(receipts);
+    const filteredReceipts =
+      q.length === 0
+        ? receipts
+        : receipts.filter((receipt) =>
+            [
+              receipt.reference,
+              receipt.vendor,
+              String(receipt.status),
+              receipt.responsible?.name ?? "",
+            ]
+              .join(" ")
+              .toLowerCase()
+              .includes(q),
+          );
+
+    return NextResponse.json(filteredReceipts);
   } catch (error) {
     console.error("Error fetching receipts:", error);
     return NextResponse.json({ error: "Failed to fetch receipts" }, { status: 500 });

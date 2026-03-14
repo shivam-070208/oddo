@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Download, LayoutList,Plus, Search, RefreshCw, X } from "lucide-react";
+import { useSearchContext } from "@/contexts/search-context";
 
 type MoveType = "RECEIPT" | "DELIVERY" | "TRANSFER" | "ADJUSTMENT";
 
@@ -106,8 +107,11 @@ function directionClassName(direction: MoveDirection): string {
   return "text-slate-700";
 }
 
-async function fetchStockMoves(): Promise<StockMoveApiItem[]> {
-  const res = await fetch("/api/stock-moves", { credentials: "include" });
+async function fetchStockMoves(searchQuery?: string): Promise<StockMoveApiItem[]> {
+  const params = new URLSearchParams();
+  if (searchQuery?.trim()) params.set("q", searchQuery.trim());
+  const query = params.toString();
+  const res = await fetch(`/api/stock-moves${query ? `?${query}` : ""}`, { credentials: "include" });
   if (!res.ok) {
     throw new Error("Failed to load move history");
   }
@@ -165,7 +169,7 @@ function toViewModel(move: StockMoveApiItem): MoveViewModel {
 }
 
 export default function WarehouseStaffMoveHistoryPage() {
-  const [search, setSearch] = useState("");
+  const { searchQuery, setSearchQuery } = useSearchContext();
   const [view, setView] = useState("list");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [createError, setCreateError] = useState<string | null>(null);
@@ -179,8 +183,8 @@ export default function WarehouseStaffMoveHistoryPage() {
   });
 
   const { data, isLoading, isError, refetch, isFetching } = useQuery({
-    queryKey: ["stock-moves"],
-    queryFn: fetchStockMoves,
+    queryKey: ["stock-moves", searchQuery ?? ""],
+    queryFn: () => fetchStockMoves(searchQuery),
   });
 
   const { data: products, isLoading: productsLoading } = useQuery({
@@ -218,7 +222,7 @@ export default function WarehouseStaffMoveHistoryPage() {
   const rows = useMemo(() => (data ?? []).map(toViewModel), [data]);
 
   const filteredRows = useMemo(() => {
-    const q = search.trim().toLowerCase();
+    const q = searchQuery.trim().toLowerCase();
     if (!q) return rows;
 
     return rows.filter((row) => {
@@ -228,7 +232,7 @@ export default function WarehouseStaffMoveHistoryPage() {
         row.productName.toLowerCase().includes(q)
       );
     });
-  }, [rows, search]);
+  }, [rows, searchQuery]);
 
   const groupedByStatus = useMemo(() => {
     return {
@@ -398,8 +402,8 @@ export default function WarehouseStaffMoveHistoryPage() {
               className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
             />
             <input
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
               placeholder="Search by reference, contact, or product"
               className="w-full rounded-lg border border-slate-200 py-2 pl-9 pr-3 text-sm  text-black outline-none ring-blue-500 focus:ring-2"
             />

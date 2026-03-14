@@ -9,6 +9,16 @@ import {
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useSession } from "@/hooks/use-session";
+
+function formatRole(role?: string) {
+  if (!role) return "";
+  return role
+    .toLowerCase()
+    .split("_")
+    .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+    .join(" ");
+}
 
 const NAV_ITEMS = [
   {
@@ -26,6 +36,8 @@ const NAV_ITEMS = [
 
 const WarehouseStaffSidebar = () => {
   const pathname = usePathname();
+  const { data } = useSession();
+  const user = data?.session?.user;
 
   const linkClass = (href: string) => {
  
@@ -79,8 +91,8 @@ const WarehouseStaffSidebar = () => {
           />
         </div>
         <div>
-          <p className="text-sm font-semibold text-gray-800">Warehouse Staff</p>
-          <p className="text-xs text-gray-500">Warehouse Staff</p>
+          <p className="text-sm font-semibold text-gray-800">{user?.name ?? "User"}</p>
+          <p className="text-xs text-gray-500">{formatRole(user?.role) || "Unknown Role"}</p>
         </div>
       </div>
     </div>

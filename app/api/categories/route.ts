@@ -2,8 +2,10 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/db";
 
 // GET /api/categories — List all categories
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const q = request.nextUrl.searchParams.get("q")?.trim().toLowerCase() ?? "";
+
     const categories = await prisma.category.findMany({
       include: {
         _count: {
@@ -13,7 +15,12 @@ export async function GET() {
       orderBy: { createdAt: "desc" },
     });
 
-    return NextResponse.json(categories);
+    const filteredCategories =
+      q.length === 0
+        ? categories
+        : categories.filter((category) => category.name.toLowerCase().includes(q));
+
+    return NextResponse.json(filteredCategories);
   } catch (error) {
     console.error("Error fetching categories:", error);
     return NextResponse.json(

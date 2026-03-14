@@ -8,8 +8,11 @@ export type CategoryRow = {
   productsCount: number;
 };
 
-async function fetchCategories(): Promise<CategoryRow[]> {
-  const res = await fetch("/api/categories");
+async function fetchCategories(searchQuery?: string): Promise<CategoryRow[]> {
+  const params = new URLSearchParams();
+  if (searchQuery?.trim()) params.set("q", searchQuery.trim());
+  const query = params.toString();
+  const res = await fetch(`/api/categories${query ? `?${query}` : ""}`);
   if (!res.ok) {
     throw new Error("Failed to fetch categories");
   }
@@ -26,10 +29,10 @@ async function fetchCategories(): Promise<CategoryRow[]> {
   }));
 }
 
-export function useCategories() {
+export function useCategories(searchQuery?: string) {
   return useQuery({
-    queryKey: ["categories"],
-    queryFn: fetchCategories,
+    queryKey: ["categories", searchQuery ?? ""],
+    queryFn: () => fetchCategories(searchQuery),
   });
 }
 

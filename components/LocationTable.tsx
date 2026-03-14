@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useMemo, useState } from "react";
 import { Edit, MapPinned, Save, ShieldPlus, Trash2, Warehouse } from "lucide-react";
+import { useSearchContext } from "@/contexts/search-context";
 
 type Status = "Active" | "In Use" | "Busy";
 
@@ -52,6 +53,7 @@ function StatusBadge({ status }: { status: Status }) {
 const ROWS_PER_PAGE = 20;
 
 const LocationTable = () => {
+  const { searchQuery } = useSearchContext();
   const [warehouses, setWarehouses] = useState<WarehouseRow[]>([]);
   const [locations, setLocations] = useState<LocationRow[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -84,9 +86,13 @@ const LocationTable = () => {
       setIsLoading(true);
       setError("");
 
+      const params = new URLSearchParams();
+      if (searchQuery.trim()) params.set("q", searchQuery.trim());
+      const query = params.toString();
+
       const [warehouseResponse, locationResponse] = await Promise.all([
         fetch("/api/warehouses", { cache: "no-store" }),
-        fetch("/api/locations", { cache: "no-store" }),
+        fetch(`/api/locations${query ? `?${query}` : ""}`, { cache: "no-store" }),
       ]);
 
       if (!warehouseResponse.ok || !locationResponse.ok) {
@@ -118,7 +124,7 @@ const LocationTable = () => {
 
   useEffect(() => {
     void loadData();
-  }, []);
+  }, [searchQuery]);
 
   useEffect(() => {
     if (currentPage > totalPages) {

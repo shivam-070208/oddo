@@ -5,8 +5,8 @@ import { useStockMoves, type StockMoveRow } from "./useStockMoves";
 
 export type TransferRow = StockMoveRow;
 
-export function useTransfers() {
-  const result = useStockMoves();
+export function useTransfers(searchQuery?: string) {
+  const result = useStockMoves(searchQuery);
   const transfers =
     result.data?.filter((m) => m.type === "TRANSFER") ?? [];
   return { ...result, data: transfers as TransferRow[] };

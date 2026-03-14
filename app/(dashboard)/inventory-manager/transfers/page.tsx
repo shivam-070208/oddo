@@ -7,6 +7,7 @@ import { toast } from "sonner";
 import { useTransfers, useCreateTransfer } from "../_hooks/useTransfers";
 import { useProducts } from "../_hooks/useProducts";
 import { useLocations } from "../_hooks/useLocations";
+import { useSearchContext } from "@/contexts/search-context";
 
 type TransferFormValues = {
   reference?: string;
@@ -17,7 +18,8 @@ type TransferFormValues = {
 };
 
 export default function TransfersPage() {
-  const { data: transfers, isLoading, error } = useTransfers();
+  const { searchQuery } = useSearchContext();
+  const { data: transfers, isLoading, error } = useTransfers(searchQuery);
   const { data: products } = useProducts();
   const { data: locations } = useLocations();
   const createTransfer = useCreateTransfer();

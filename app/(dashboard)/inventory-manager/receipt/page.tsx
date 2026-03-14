@@ -11,6 +11,7 @@ import {
   Plus,
 } from "lucide-react";
 import { toast } from "sonner";  
+import { useSearchContext } from "@/contexts/search-context";
 
 type ReceiptStatus = "DRAFT" | "READY" | "DONE" | "CANCELLED";
 
@@ -33,6 +34,7 @@ type CreateReceiptForm = {
 };
 
 export default function ReceiptPage() {
+  const { searchQuery } = useSearchContext();
   const [receipts, setReceipts] = useState<ReceiptRow[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -57,7 +59,10 @@ export default function ReceiptPage() {
     try {
       setLoading(true);
       setError(null);
-      const res = await fetch("/api/receipts");
+      const params = new URLSearchParams();
+      if (searchQuery.trim()) params.set("q", searchQuery.trim());
+      const query = params.toString();
+      const res = await fetch(`/api/receipts${query ? `?${query}` : ""}`);
       if (!res.ok) {
         throw new Error("Failed to fetch receipts");
       }
@@ -105,7 +110,7 @@ export default function ReceiptPage() {
   useEffect(() => {
     void loadReceipts();
     void loadCurrentUser();
-  }, []);
+  }, [searchQuery]);
 
   const onSubmit = async (form: CreateReceiptForm) => {
     if (!currentUserId) {
@@ -222,7 +227,7 @@ export default function ReceiptPage() {
                 </p>
               </div>
               {i < steps.length - 1 && (
-                <div className="mx-2 mt-4 h-0.5 min-w-[24px] flex-1 bg-blue-200" />
+                <div className="mx-2 mt-4 h-0.5 min-w-6 flex-1 bg-blue-200" />
               )}
             </div>
           ))}
@@ -289,7 +294,7 @@ export default function ReceiptPage() {
               No receipts yet. Create your first receipt using the button above.
             </p>
           ) : (
-            <table className="w-full min-w-[720px]">
+            <table className="w-full min-w-180">
               <thead>
                 <tr className="border-b border-slate-200 bg-slate-50/80 text-xs font-semibold uppercase tracking-wider text-slate-500">
                   <th className="px-5 py-3 text-left">Reference</th>

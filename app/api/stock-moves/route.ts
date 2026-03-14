@@ -4,8 +4,10 @@ import { prisma } from "@/lib/db";
 const validMoveTypes = ["RECEIPT", "DELIVERY", "TRANSFER", "ADJUSTMENT"];
 
 // GET /api/stock-moves - List all stock moves
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
+    const q = request.nextUrl.searchParams.get("q")?.trim().toLowerCase() ?? "";
+
     const stockMoves = await prisma.stockMove.findMany({
       include: {
         product: true,
@@ -15,7 +17,26 @@ export async function GET() {
       orderBy: { createdAt: "desc" },
     });
 
-    return NextResponse.json(stockMoves);
+    const filteredStockMoves =
+      q.length === 0
+        ? stockMoves
+        : stockMoves.filter((move) =>
+            [
+              move.reference ?? "",
+              String(move.type),
+              move.product?.name ?? "",
+              move.product?.sku ?? "",
+              move.fromLocation?.name ?? "",
+              move.fromLocation?.code ?? "",
+              move.toLocation?.name ?? "",
+              move.toLocation?.code ?? "",
+            ]
+              .join(" ")
+              .toLowerCase()
+              .includes(q),
+          );
+
+    return NextResponse.json(filteredStockMoves);
   } catch (error) {
     console.error("Error fetching stock moves:", error);
     return NextResponse.json({ error: "Failed to fetch stock moves" }, { status: 500 });

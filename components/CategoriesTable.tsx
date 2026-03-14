@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchContext } from "@/contexts/search-context";
 
 type CategoryRow = {
   id: string;
@@ -28,6 +29,7 @@ const formatDate = (value: string | null | undefined): string => {
 };
 
 const CategoriesTable = ({ refreshKey = 0 }: CategoriesTableProps) => {
+  const { searchQuery } = useSearchContext();
   const [categories, setCategories] = useState<CategoryRow[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [error, setError] = useState<string>("");
@@ -37,7 +39,10 @@ const CategoriesTable = ({ refreshKey = 0 }: CategoriesTableProps) => {
 
     const fetchCategories = async () => {
       try {
-        const response = await fetch("/api/categories", { cache: "no-store" });
+        const params = new URLSearchParams();
+        if (searchQuery.trim()) params.set("q", searchQuery.trim());
+        const query = params.toString();
+        const response = await fetch(`/api/categories${query ? `?${query}` : ""}`, { cache: "no-store" });
         if (!response.ok) {
           throw new Error("Failed to load categories");
         }
@@ -62,7 +67,7 @@ const CategoriesTable = ({ refreshKey = 0 }: CategoriesTableProps) => {
     return () => {
       isMounted = false;
     };
-  }, [refreshKey]);
+  }, [refreshKey, searchQuery]);
 
   if (isLoading) {
     return <p className="text-sm text-gray-500">Loading categories...</p>;
