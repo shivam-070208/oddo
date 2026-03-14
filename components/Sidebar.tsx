@@ -3,8 +3,6 @@
 import {
   LayoutDashboard,
   Package,
-  Settings,
-  History,
   ClipboardList,
   Boxes,
   MapPinned,
@@ -26,20 +24,19 @@ const Sidebar = () => {
 
         <nav className="space-y-2">
           <Link
-            href="/"
+            href="/admin"
             className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400"
           >
             <LayoutDashboard size={18} />
             <p className="text-black">Dashboard</p>
           </Link>
-          <a className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400">
+          <Link
+            href="/admin/users"
+            className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400"
+          >
             <ClipboardList size={18} />
-            <p className="text-black">Operations</p>
-          </a>
-          <a className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400">
-            <Package size={18} />
-            <p className="text-black">Products</p>
-          </a>
+            <p className="text-black">Users</p>
+          </Link>
           <Link
             href="/admin/locations"
             className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400"
@@ -48,32 +45,14 @@ const Sidebar = () => {
             <p className="text-black">Locations</p>
           </Link>
           <Link
-            href="/categories"
+            href="/admin/categories"
             className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400"
           >
             <Boxes size={18} />
             <p className="text-black">Categories</p>
           </Link>
-          <Link
-            href="/warehouse-staff/move-history"
-            className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400"
-          >
-            <History size={18} />
-            <p className="text-black">Move History</p>
-          </Link>
         </nav>
 
-        <div className="flex-col items-center justify-center">
-         
-
-
-=======
-          <p className="text-sm text-gray-400 p-1 m-1">System</p>
-          <a className="flex items-center gap-3 p-1 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400">
-            <Settings size={18} />
-            <p className="text-black text-center p-1">Settings</p>
-          </a>
-        </div>
       </div>
       <div>
         <div className="flex items-center gap-3 p-3 mt-auto border-t">

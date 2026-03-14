@@ -44,7 +44,7 @@ function WarehouseIcon({ className }: { className?: string }) {
 // Role route map for redirection after success
 const ROLE_ROUTES: Record<LoginFormRole, string> = {
   admin: "/admin",
-  warehouse_staff: "/warehouse",
+  warehouse_staff: "/warehouse-staff",
   inventory_manager: "/inventory-manager",
 };
 

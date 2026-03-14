@@ -401,7 +401,7 @@ export default function WarehouseStaffMoveHistoryPage() {
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by reference, contact, or product"
-              className="w-full rounded-lg border border-slate-200 py-2 pl-9 pr-3 text-sm text-slate-800 outline-none ring-blue-500 focus:ring-2"
+              className="w-full rounded-lg border border-slate-200 py-2 pl-9 pr-3 text-sm  text-black outline-none ring-blue-500 focus:ring-2"
             />
           </div>
 
@@ -552,7 +552,7 @@ export default function WarehouseStaffMoveHistoryPage() {
                   <select
                     value={newMoveForm.type}
                     onChange={(e) => updateNewMoveForm("type", e.target.value as MoveType)}
-                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-blue-500 focus:ring-2"
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-blue-500 focus:ring-2 text-black"
                   >
                     <option value="RECEIPT">Receipt</option>
                     <option value="DELIVERY">Delivery</option>
@@ -569,7 +569,7 @@ export default function WarehouseStaffMoveHistoryPage() {
                     value={newMoveForm.quantity}
                     onChange={(e) => updateNewMoveForm("quantity", e.target.value)}
                     placeholder="e.g. 12"
-                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-blue-500 focus:ring-2"
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-blue-500 focus:ring-2 text-black"
                   />
                 </label>
               </div>
@@ -579,7 +579,7 @@ export default function WarehouseStaffMoveHistoryPage() {
                 <select
                   value={newMoveForm.productId}
                   onChange={(e) => updateNewMoveForm("productId", e.target.value)}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-blue-500 focus:ring-2"
+                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-blue-500 focus:ring-2 text-black"
                   disabled={productsLoading}
                 >
                   <option value="">Select product</option>
@@ -597,7 +597,7 @@ export default function WarehouseStaffMoveHistoryPage() {
                   <select
                     value={newMoveForm.fromLocationId}
                     onChange={(e) => updateNewMoveForm("fromLocationId", e.target.value)}
-                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-blue-500 focus:ring-2"
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-blue-500 focus:ring-2 text-black"
                     disabled={locationsLoading}
                   >
                     <option value="">Select from location</option>
@@ -614,7 +614,7 @@ export default function WarehouseStaffMoveHistoryPage() {
                   <select
                     value={newMoveForm.toLocationId}
                     onChange={(e) => updateNewMoveForm("toLocationId", e.target.value)}
-                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-blue-500 focus:ring-2"
+                    className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-blue-500 focus:ring-2 text-black"
                     disabled={locationsLoading}
                   >
                     <option value="">Select to location</option>
@@ -633,7 +633,7 @@ export default function WarehouseStaffMoveHistoryPage() {
                   value={newMoveForm.reference}
                   onChange={(e) => updateNewMoveForm("reference", e.target.value)}
                   placeholder="e.g. WH/IN/0001"
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-blue-500 focus:ring-2"
+                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm outline-none ring-blue-500 focus:ring-2 text-black"
                 />
               </label>
 
