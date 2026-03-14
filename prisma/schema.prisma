@@ -96,11 +96,18 @@ model Location {
 }
 
 
+enum ReceiptStatus {
+  DRAFT
+  READY
+  DONE
+  CANCELLED
+}
+
 model Receipt {
   id            String   @id @default(uuid())
   reference     String   @unique
   vendor        String
-  status        String
+  status        ReceiptStatus @default(DRAFT)
   scheduledDate DateTime
 
   responsibleId String
