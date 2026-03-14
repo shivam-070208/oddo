@@ -1,5 +1,4 @@
 import { Package, Info, Plus } from "lucide-react";
-import React from "react";
 
 export default function AddProductForm() {
   return (
