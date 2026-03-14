@@ -1,9 +1,6 @@
-
-
 import Navbar from "@/components/Navbar";
 import Sidebar from "@/components/Sidebar";
 import DashboardContent from "@/components/DashboardContent";
-
 const Home = () => {
   return (
     <div className="flex h-screen bg-gray-50 overflow-hidden">
@@ -15,7 +12,5 @@ const Home = () => {
     </div>
   );
 };
-
-
 export default Home;
 

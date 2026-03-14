@@ -30,16 +30,8 @@ const Sidebar = () => {
             className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400"
           >
             <LayoutDashboard size={18} />
-<<<<<<< HEAD
-
-            <p className="text-black"> Dashboard</p>
-
-          </a>
-
-=======
             <p className="text-black">Dashboard</p>
           </Link>
->>>>>>> d528ece13f6796d568a8b2a118ec6edf446997c6
           <a className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400">
             <ClipboardList size={18} />
             <p className="text-black">Operations</p>
@@ -69,30 +61,19 @@ const Sidebar = () => {
         </nav>
 
         <div className="flex-col items-center justify-center">
-<<<<<<< HEAD
-
-=======
-          <p className="text-sm text-gray-400  p-1  m-1">System</p>
-          <a className="flex items-center gap-3 p-1 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400 ">
-            <Settings size={18} />
+         
 
 
 =======
           <p className="text-sm text-gray-400 p-1 m-1">System</p>
           <a className="flex items-center gap-3 p-1 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400">
             <Settings size={18} />
->>>>>>> d528ece13f6796d568a8b2a118ec6edf446997c6
             <p className="text-black text-center p-1">Settings</p>
           </a>
         </div>
       </div>
       <div>
         <div className="flex items-center gap-3 p-3 mt-auto border-t">
-<<<<<<< HEAD
-
-
-=======
->>>>>>> d528ece13f6796d568a8b2a118ec6edf446997c6
           <div className="w-10 h-10 rounded-full bg-orange-200 flex items-center justify-center">
             <Image
               src="/profile.jpg"
@@ -107,17 +88,10 @@ const Sidebar = () => {
             <p className="text-sm font-semibold text-gray-800">Alex Rivera</p>
             <p className="text-xs text-gray-500">Admin</p>
           </div>
-<<<<<<< HEAD
-
         </div>
       </div>
-
-=======
-        </div>
-      </div>
->>>>>>> d528ece13f6796d568a8b2a118ec6edf446997c6
     </div>
-  );
-};
+  )
+}
 
 export default Sidebar;

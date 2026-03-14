@@ -1,10 +1,5 @@
-<<<<<<< HEAD:components/DashboardContent.jsx
-"use client";
-import Table from "@/components/Table";
-=======
 import { ComponentType } from "react";
 import Table from "@/components/RecentTable";
->>>>>>> d528ece13f6796d568a8b2a118ec6edf446997c6:components/DashboardContent.tsx
 import {
   Package,
   AlertTriangle,
@@ -66,10 +61,6 @@ const statCards: StatCard[] = [
 const DashboardContent = () => {
   return (
     <main className="flex-1 overflow-y-auto p-6 space-y-6">
-<<<<<<< HEAD:components/DashboardContent.jsx
-      {/* Stat Cards */}
-=======
->>>>>>> d528ece13f6796d568a8b2a118ec6edf446997c6:components/DashboardContent.tsx
       <div className="grid grid-cols-4 gap-4">
         {statCards.map((card) => {
           const Icon = card.icon;
@@ -102,11 +93,6 @@ const DashboardContent = () => {
           );
         })}
       </div>
-<<<<<<< HEAD:components/DashboardContent.jsx
-      {/* Action Cards */}
-=======
-
->>>>>>> d528ece13f6796d568a8b2a118ec6edf446997c6:components/DashboardContent.tsx
       <div className="grid grid-cols-2 gap-4">
         <div className="rounded-xl p-7 flex flex-col gap-3 bg-linear-to-br from-indigo-500 via-blue-500 to-purple-600 text-white shadow-md">
           <h2 className="text-xl font-bold">Incoming Shipments</h2>

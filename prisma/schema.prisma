@@ -3,12 +3,9 @@ generator client {
   provider = "prisma-client"
   output   = "../app/generated/prisma"
 }
-
 datasource db {
   provider = "postgresql"
 }
-
-
 enum UserRole {
   ADMIN
   INVENTORY_MANAGER
@@ -79,8 +76,6 @@ model Warehouse {
 
   locations Location[]
 }
-
-
 model Location {
   id          String    @id @default(uuid())
   name        String
@@ -186,12 +181,10 @@ model StockMove {
   createdAt DateTime @default(now())
 }
 
-
 model InventoryAdjustment {
   id        String   @id @default(uuid())
   quantity  Int
   reason    String
-
   productId String
   product   Product @relation(fields: [productId], references: [id])
 
@@ -200,5 +193,3 @@ model InventoryAdjustment {
 
   createdAt DateTime @default(now())
 }
-
-
