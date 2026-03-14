@@ -82,7 +82,7 @@ const Table = () => {
 							<td className="py-3 pr-6">
 								<span
 									className={`px-3 py-1 rounded-full text-xs font-semibold ${
-										statusStyles[row.status] ?? "bg-gray-100 text-gray-500"
+										statusStyles[row.status as keyof typeof statusStyles] ?? "bg-gray-100 text-gray-500"
 									}`}
 								>
 									{row.status}

@@ -101,3 +101,19 @@ body {
 .btn-slice-primary:active .btn-slice-inner {
   transition-duration: 0.15s;
 }
+
+
+@media print {
+
+  @page {
+    margin: 0;
+    size: auto;
+  }
+  @page {
+    margin-top: 0;
+    margin-bottom: 0;
+    margin-left: 0;
+    margin-right: 0;
+    
+  }
+}
