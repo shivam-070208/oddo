@@ -101,9 +101,10 @@ export async function POST(request: NextRequest) {
           <table width="100%" cellpadding="0" cellspacing="0" style="max-width:475px;margin:32px auto;background:#fff;border-radius:12px;box-shadow:0 2px 18px 0 rgba(19,42,66,0.06);overflow:hidden;">
             <tr>
               <td style="padding:32px 32px 0 32px;text-align:center;">
-                <div style="background:linear-gradient(90deg,#6366f1,#3b82f6); border-radius:50%;width:56px;height:56px;display:inline-flex;align-items:center;justify-content:center;">
-                  <img src="${process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000"}/icon.png" alt="StockFlow" width="38" height="38" style="display:block;margin:0 auto;border-radius:8px;background:#fff;"/>
-                </div>
+               <div style="background:linear-gradient(90deg,#6366f1,#3b82f6);border-radius:50%;width:56px;height:56px;display:inline-flex;align-items:center;justify-content:center;color:white;font-size:24px;font-weight:bold;font-family:Arial, sans-serif;
+">
+  S
+</div>
                 <h2 style="font-family:system-ui,sans-serif;font-size:1.6rem;font-weight:700;margin:24px 0 8px">Welcome, ${name}!</h2>
                 <p style="font-family:system-ui,sans-serif;font-size:1.06rem;color:#333;margin:0 0 18px;">
                   Thanks for joining <strong>StockFlow</strong>.<br>
