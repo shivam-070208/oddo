@@ -59,7 +59,7 @@ export function useLogin() {
     mutationFn: loginApi,
     onSuccess: (data) => {
       toast.success("Login successful");
-      router.push(resolveRouteByRole(data.user.role));
+      router.push(resolveRouteByRole((data as LoginResponse & { user: { role: string } }).user.role));
       router.refresh();
     },
     onError: (err: Error) => {
