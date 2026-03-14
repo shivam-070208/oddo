@@ -18,6 +18,7 @@ const Navbar = () => {
           <span>Stockholm DC</span>
           <MapPin size={20} className="cursor-pointer text-gray-400 ml-1" />
         </div>
+        
       </div>
     </div>
   );

@@ -41,7 +41,7 @@ const Sidebar = () => {
             <p className="text-black">Products</p>
           </a>
           <Link
-            href="/inventory-manager/locations"
+            href="/admin/locations"
             className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400"
           >
             <MapPinned size={18} />
