@@ -1,4 +1,4 @@
-import { Edit, Trash2, Warehouse ,MapPin} from "lucide-react";
+import { Edit, Trash2 ,MapPin} from "lucide-react";
 
 type Status = "Active" | "Maintenance";
 

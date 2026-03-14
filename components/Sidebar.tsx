@@ -54,13 +54,20 @@ const Sidebar = () => {
             <Boxes size={18} />
             <p className="text-black">Categories</p>
           </Link>
-          <a className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400">
+          <Link
+            href="/warehouse-staff/move-history"
+            className="flex items-center gap-3 p-2 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400"
+          >
             <History size={18} />
             <p className="text-black">Move History</p>
-          </a>
+          </Link>
         </nav>
 
         <div className="flex-col items-center justify-center">
+         
+
+
+=======
           <p className="text-sm text-gray-400 p-1 m-1">System</p>
           <a className="flex items-center gap-3 p-1 rounded-lg cursor-pointer hover:bg-blue-400 hover:text-white text-gray-400">
             <Settings size={18} />
@@ -87,7 +94,7 @@ const Sidebar = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
 export default Sidebar;

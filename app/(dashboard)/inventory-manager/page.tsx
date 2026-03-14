@@ -1,5 +1,4 @@
 import Link from "next/link";
-
 export default function InventoryManagerDashboard() {
   return (
     <div className="space-y-6">

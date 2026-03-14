@@ -58,7 +58,6 @@ const statCards: StatCard[] = [
     iconColor: "text-purple-500",
   },
 ];
-
 const DashboardContent = () => {
   return (
     <main className="flex-1 overflow-y-auto p-6 space-y-6">
@@ -94,7 +93,6 @@ const DashboardContent = () => {
           );
         })}
       </div>
-
       <div className="grid grid-cols-2 gap-4">
         <div className="rounded-xl p-7 flex flex-col gap-3 bg-linear-to-br from-indigo-500 via-blue-500 to-purple-600 text-white shadow-md">
           <h2 className="text-xl font-bold">Incoming Shipments</h2>
