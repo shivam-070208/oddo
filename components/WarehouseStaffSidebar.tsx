@@ -17,11 +17,6 @@ const NAV_ITEMS = [
     icon: LayoutDashboard,
   },
   {
-    label: "Operations",
-    href: "/warehouse-staff/operations",
-    icon: ClipboardList,
-  },
-  {
     label: "Move History",
     href: "/warehouse-staff/move-history",
     icon: History,
@@ -33,7 +28,13 @@ const WarehouseStaffSidebar = () => {
   const pathname = usePathname();
 
   const linkClass = (href: string) => {
-    const isActive = pathname === href || pathname.startsWith(href + "/");
+ 
+    let isActive = false;
+    if (href === "/warehouse-staff") {
+      isActive = pathname === "/warehouse-staff";
+    } else {
+      isActive = pathname === href || pathname.startsWith(href + "/");
+    }
     return `flex items-center gap-3 p-2 rounded-lg cursor-pointer transition-colors ${
       isActive
         ? "bg-blue-500 text-white"
