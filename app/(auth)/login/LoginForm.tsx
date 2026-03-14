@@ -1,12 +1,14 @@
+/* eslint-disable react-hooks/incompatible-library */
 "use client";
 
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useLogin, type LoginFormRole } from "./useLogin";
 
 type LoginFormValues = {
   email: string;
   password: string;
-  role: "admin" | "inventory_manager" | "warehouse_staff";
+  role: LoginFormRole;
 };
 
 const ROLE_OPTIONS = [
@@ -40,6 +42,7 @@ function WarehouseIcon({ className }: { className?: string }) {
 
 export default function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const login = useLogin();
   const {
     register,
     handleSubmit,
@@ -56,7 +59,7 @@ export default function LoginForm() {
   const selectedRole = watch("role");
 
   const onSubmit = (data: LoginFormValues) => {
-    console.log("Login submitted:", data);
+    login.mutate({ email: data.email, password: data.password, role: data.role });
   };
 
   return (
@@ -188,10 +191,11 @@ export default function LoginForm() {
 
           <button
             type="submit"
-            className="btn-slice btn-slice-violet w-full rounded-lg bg-violet-600 px-4 py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-violet-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 active:scale-[0.99]"
+            disabled={login.isPending}
+            className="btn-slice btn-slice-violet w-full rounded-lg bg-violet-600 px-4 py-3.5 text-sm font-semibold text-white shadow-sm transition-all duration-300 hover:bg-violet-700 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-violet-500 focus:ring-offset-2 active:scale-[0.99] disabled:pointer-events-none disabled:opacity-70"
           >
             <span className="btn-slice-inner" aria-hidden />
-            <span className="relative z-10">Login</span>
+            <span className="relative z-10">{login.isPending ? "Signing in…" : "Login"}</span>
           </button>
 
           <div className="flex justify-end">
