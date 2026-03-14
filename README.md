@@ -1,85 +1,133 @@
-# StockFlow: Inventory Management System
+# StockFlow
 
-StockFlow is a modern inventory management solution built with [Next.js](https://nextjs.org), designed to help businesses efficiently track inventory, warehouse operations, and staff roles. This project uses Next.js App Router, optimized Google fonts, and a robust authentication and role-based authorization system.
+StockFlow is a role-based inventory and warehouse management system built with Next.js, Prisma, PostgreSQL, and React Query.
 
-## Features
+## Highlights
 
-- **Role-Based Access Control**: Admin, Inventory Manager, and Warehouse Staff roles.
-- **Email Verification & OTP Authentication**
-- **Admin Dashboard**: Manage users, inventory, and oversee operations.
-- **Modern UI**: Uses [Geist](https://vercel.com/font) and Plus Jakarta Sans for a sleek, readable design.
-- **Optimized for Production**: Secure session handling, protected routes, and deploy-ready configuration.
+- Role-based dashboards:
+  - Admin
+  - Inventory Manager
+  - Warehouse Staff
+- User invitation with email verification (OTP flow)
+- Product, category, location, receipt, delivery, and stock-move management
+- Session-based authentication and protected dashboard routes
+- Global search support across dashboard data pages
+- CSV export support on key listing pages
 
-## Getting Started
+## Tech Stack
 
-### 1. Clone the repository
+- Next.js 16 (App Router)
+- React 19
+- TypeScript
+- Tailwind CSS 4
+- Prisma ORM 7
+- PostgreSQL
+- React Query
+- React Hook Form
+- Nodemailer
 
-```bash
-git clone https://github.com/your-org/stockflow.git
-cd stockflow
+## Project Structure
+
+```text
+app/
+  (auth)/
+  (dashboard)/
+    admin/
+    inventory-manager/
+    warehouse-staff/
+  api/
+components/
+hooks/
+lib/
+prisma/
+public/
 ```
 
-### 2. Install dependencies
+## Setup
+
+### 1. Install dependencies
 
 ```bash
 npm install
-# or
-yarn install
 ```
 
-### 3. Configure Environment Variables
+### 2. Configure environment variables
 
-Copy `.env.example` to `.env.local` and set up your variables (database URL, SMTP, session secret, etc).
+Copy `.example.env` to `.env` (or `.env.local`) and fill values.
 
-### 4. Run the development server
+Required keys:
+
+- `DATABASE_URL`
+- `SESSION_SECRET`
+- `SMTP_HOST`
+- `SMTP_PORT`
+- `SMTP_SECURE`
+- `SMTP_USER`
+- `SMTP_PASS`
+- `SMTP_FROM`
+- `NEXT_PUBLIC_APP_URL`
+
+### 3. Prepare database
+
+```bash
+npx prisma migrate dev
+npx prisma generate
+```
+
+### 4. Run development server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) to view the app.
+App runs at http://localhost:3000
 
-## Default Admin Credentials
+## Available Scripts
 
-> **Note:** Use these credentials to access the admin dashboard in local development.
+- `npm run dev` - start development server
+- `npm run build` - create production build
+- `npm run start` - run production server
+- `npm run lint` - run ESLint
 
-- **Email:** shivamdevofficial07@gmail.com
-- **Password:** admin@gmail.com
+## Screenshots
 
-> ⚠️ Change these credentials in production for security reasons!
+Add your screenshots to:
 
-## File Structure
+- `public/screenshots/`
 
-- `app/`: Next.js App Router codebase
-    - `app/(dashboard)/admin/`: Admin dashboard routes/layouts
-- `lib/`: Shared utilities (authentication, session, etc.)
-- `prisma/`: Database schema and migrations
+Then update or keep the sample links below.
 
-## Technologies Used
+### Admin Dashboard
 
-- [Next.js](https://nextjs.org/)
-- [Prisma ORM](https://www.prisma.io/)
-- [PostgreSQL](https://www.postgresql.org/) (or other supported DB)
-- [Tailwind CSS](https://tailwindcss.com/)
-- [Nodemailer](https://nodemailer.com/) (for emails)
-- [JWT](https://jwt.io/) for secure sessions
+![Admin Dashboard](public/screenshots/admin.png)
 
-## Learn More
+### Inventory Manager Dashboard
 
-- [Next.js Documentation](https://nextjs.org/docs)
-- [StockFlow Wiki](https://github.com/your-org/stockflow/wiki) (coming soon!)
+![Inventory Manager Dashboard](public/screenshots/inventory.png)
+
+### Gmail OTP
+
+![Gmail OTP](public/screenshots/otp.png)
+
+
+## How To Add More Screenshots
+
+1. Put image files inside `public/screenshots/`.
+2. Use markdown image syntax in this README:
+
+```md
+![Your Caption](public/screenshots/your-file-name.png)
+```
+
+3. Commit both the image and README updates.
+
+## Notes
+
+- Keep `SESSION_SECRET` strong (at least 32 chars).
+- Do not commit real production credentials.
+- Configure SMTP properly to enable OTP and invite emails.
 
 ## License
 
 MIT
-
----
-
-_Questions, feedback, or contributions are always welcome!_
 
